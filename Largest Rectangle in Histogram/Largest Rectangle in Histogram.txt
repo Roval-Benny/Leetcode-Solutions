@@ -1,0 +1,16 @@
+# Solution Roval T:O(N) S:O(N)
+# 31-10-2022
+
+class Solution:
+    def largestRectangleArea(self, heights: List[int]) -> int:
+        total = 0
+        stack = []
+        heights.append(0)
+        for i,val in enumerate(heights):
+            start = i
+            while stack and stack[-1][1]>val:
+                index,height = stack.pop(-1)
+                total = max(total,height*(i-index))
+                start = index
+            stack.append((start,val))
+        return total

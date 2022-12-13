@@ -1,0 +1,30 @@
+# Solution Roval T:O(N+M) S:O(1)
+# 09-08-2022
+'''
+
+    You can't access the binary matrix directly.
+    
+    The method dimensions() takes no arguments and returns an array of two integers.
+    so, we call res = dimensions(), where res[0] = The number of rows and res[1] = The number of columns.
+	Calling the dimensions() more than once will be judged as the wrong answer and the program stops instantly.
+
+	The method get() two takes arguments say x and y and return the binaryMatrix[x][y].
+	So, element = get(x, y).
+	Calling the get() more than 2000 times will be judged as the wrong answer and the program stops instantly. 
+'''
+
+def leftmostColumn(dimensions, get):
+    # write your code here
+    # return an integer denoting the answer
+    row,col = dimensions()
+    row-=1
+    col-=1
+    flag = False
+    while row>=0:
+        while col>=0 and get(row,col)==1:
+            col-=1
+            flag = True
+        row-=1
+    if flag:
+        return col+1
+    return -1

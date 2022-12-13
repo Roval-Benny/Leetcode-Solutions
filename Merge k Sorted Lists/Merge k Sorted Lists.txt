@@ -1,0 +1,26 @@
+# Solution Roval T:O(NlogK) S:O(N)
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+from heapq import heapify, heappop, heappush
+class Solution:
+    def mergeKLists(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]:
+        if not lists:
+            return None
+        heap = []
+        for i in lists:
+            if i:
+                heap.append((i.val,id(i),i))
+        heapify(heap)
+        ans = ListNode(-1)
+        head = ans
+        while heap:
+            val,id_,node = heappop(heap)
+            ans.next = node
+            if node.next:
+                heappush(heap,(node.next.val,id(node.next),node.next))
+            node.next = None
+            ans = ans.next
+        return head.next

@@ -1,0 +1,24 @@
+# Solution Roval T:O(N) S:O(N)
+# 22-08-2022
+
+class Solution:
+    def decodeString(self, s: str) -> str:
+        stack = []
+        def decode():
+            char = ''
+            while stack[-1]!='[':
+                char = stack.pop(-1) + char
+            stack.pop(-1)
+            number = ''
+            while stack and stack[-1].isdigit():
+                number = stack.pop(-1) + number
+            stack.append(int(number)*char)
+        i = 0
+        number = 0 
+        while i<len(s):
+            if s[i]==']':
+                decode()
+            else:
+                stack.append(s[i])
+            i+=1
+        return ''.join(map(str,stack))

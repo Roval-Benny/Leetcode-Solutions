@@ -1,0 +1,55 @@
+# Solution Royal T:O(N) S:O(N)
+# 20-10-2022
+
+class Solution:
+    def isBipartite(self, graph: List[List[int]]) -> bool:
+        setA,setB = set(),set()
+        def dfs(index,flag):
+            newSet = setB if flag else setA
+            if index in setA or index in setB:
+                return index in newSet
+            newSet.add(index)
+            for i in graph[index]:
+                if not dfs(i,not flag):
+                    return False
+            return True
+            
+        for index in range(len(graph)):
+            if index in setA or index in setB:
+                continue
+            if not dfs(index,True):
+                    return False
+        return True
+
+# Solution Roval T:O(N) S:O(N)
+# 20-10-2022
+
+class Solution:
+    def isBipartite(self, graph: List[List[int]]) -> bool:
+        setA,setB = set(),set()
+        visited = set()
+        def dfs(index,prev,flag):
+            if index in visited:
+                return True
+            visited.add(index)
+            for node in graph[index]:
+                if node==prev:
+                    continue
+                if flag and node in setA:
+                    return False
+                if flag:
+                    setB.add(node)
+                if not flag and node in setB:
+                    return False
+                if not flag:
+                    setA.add(node)
+                if not dfs(node,index,not flag):
+                    return False
+            return True
+            
+        for index in range(len(graph)):
+            if index not in visited:
+                setA.add(index)
+                if not dfs(index,-1,True):
+                    return False
+        return True

@@ -1,0 +1,14 @@
+# Solution Roval T:O(N) S:O(N)
+# 10-08-2022
+class Solution:
+    def checkSubarraySum(self, nums: List[int], k: int) -> bool:
+        remainder = dict({0:-1})
+        total = 0
+        for i in range(len(nums)):
+            total+=nums[i]
+            if total % k not in remainder:
+                remainder[total%k] = i
+            else:
+                if i - remainder[total%k] >=2:
+                    return True
+        return False

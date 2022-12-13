@@ -1,0 +1,47 @@
+#Solution Time:O(N!) S:O(N!): using backtracking faster
+class Solution:
+    def permute(self, nums: List[int]) -> List[List[int]]:
+        ans = []
+        
+        def perumtation(arr,temp):
+            if not arr:
+                ans.append(temp)
+                return
+            for i in range(len(arr)):
+                perumtation(arr[0:i]+arr[i+1:],temp+[arr[i]])
+        
+        perumtation(nums,[])
+        return ans
+
+
+# Solution 1 Time:O(N*N!) S:(N*N!)
+class Solution:    
+    def permute(self, nums: List[int]) -> List[List[int]]:
+        output = [[nums[0]]]
+        for num in nums[1:]:
+            temp = output[:]
+            output.clear()
+            for j in temp:
+                pos = 0
+                while(pos<=len(j)):
+                    output.append(j[0:pos]+[num]+j[pos:])
+                    pos+=1
+        return output
+
+# Solution 2 Time:O(N*N!) S:O(N*N!) using backtracking and efficient
+class Solution:    
+    def create(self,result,temp,nums):
+        if len(temp)==len(nums):
+            result.append(temp[:])
+            return
+        for num in nums:
+            if num in temp:
+                continue
+            temp.append(num)
+            self.create(result,temp,nums)
+            temp.pop(-1)
+        
+    def permute(self, nums: List[int]) -> List[List[int]]:
+        result = []
+        self.create(result,[],nums)
+        return result

@@ -1,0 +1,14 @@
+# Solution 1 T:O(N*W) S:O(W)
+class Solution:
+    
+    #Function to return max value that can be put in knapsack of capacity W.
+    def knapSack(self,W, wt, val, n):
+       
+        # code here
+        dp = [ 0 for i in range(W+1)]
+        for i in range(n):
+            temp = dp.copy()
+            for j in range(wt[i],W+1):
+                dp[j] = max(temp[j],val[i]+temp[j-wt[i]])
+            temp = []
+        return dp[-1]

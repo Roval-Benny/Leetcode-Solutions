@@ -1,0 +1,51 @@
+# Solution Roval T:O(N) S:O(N)
+# 10-08-2022
+
+from lintcode import (
+    TreeNode,
+)
+
+"""
+Definition of TreeNode:
+class TreeNode:
+    def __init__(self, val):
+        self.val = val
+        self.left, self.right = None, None
+"""
+
+class Solution:
+    """
+    @param s: a string
+    @return: a root of this tree
+    """
+    def str2tree(self, s: str) -> TreeNode:
+        # write your code here
+        if not s:
+            return None
+        stack = []
+        head = TreeNode(-1)
+        sign = 1
+        i = 0
+        number = 0
+        stack.append(head)
+        operator = '('
+        while i<len(s):
+            if s[i]=='-':
+                sign = -1
+            elif s[i].isdigit():
+                number = number*10 + int(s[i])
+            else:
+                node = TreeNode(number*sign)
+                if operator=='(':
+                    if not stack[-1].left:
+                        stack[-1].left = node
+                    else:
+                        stack[-1].right = node
+                    stack.append(node)
+                    number = 0
+                    sign = 1
+                else:
+                    stack.pop(-1) if stack else stack
+                operator = s[i]
+            i+=1
+        return head.left

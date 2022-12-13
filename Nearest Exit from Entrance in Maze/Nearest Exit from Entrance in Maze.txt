@@ -1,0 +1,22 @@
+# Solution Roval T:O(M*N) S:O(M*N)
+# 21-11-2022
+
+class Solution:
+    def nearestExit(self, maze: List[List[str]], entrance: List[int]) -> int:
+        directions = [[1,0],[0,1],[-1,0],[0,-1]]
+        queue = [entrance]
+        maze[entrance[0]][entrance[1]] = '+'
+        counter = 0
+        while queue:
+            temp = []
+            while queue:
+                x,y = queue.pop(-1)
+                for i,j in directions:
+                    if (not 0<=x+i<len(maze) or not 0<=y+j<len(maze[0])) and counter>0:
+                        return counter
+                    elif 0<=x+i<len(maze) and 0<=y+j<len(maze[0]) and maze[x+i][y+j]!='+':
+                        temp.append((x+i,y+j))
+                        maze[x+i][y+j] = '+'
+            counter+=1
+            queue = temp
+        return -1

@@ -1,0 +1,82 @@
+# Solution Roval 
+# 09-09-2022
+
+class Solution:
+    def findAllConcatenatedWordsInADict(self, words: List[str]) -> List[str]:
+        words = set(words)
+        memo = dict()
+        ans = set()
+        def backtrack(string,pos):
+            if pos==len(string):
+                ans.add(string)
+                return True
+            if string[pos:] in memo and not memo[string[pos:]]:
+                return memo[string[pos:]]
+            if string[pos:] not in memo:
+                memo[string[pos:]] = False
+            for i in range(pos,len(string)):
+                if pos==0 and i == len(string)-1:
+                    memo[string[pos:]] = True
+                    return memo[string[pos:]]
+                if string[pos:i+1] in words:
+                    memo[string[pos:]] = backtrack(string,i+1)
+            return memo[string[pos:]]
+        for i in words:
+            backtrack(i,0)
+        return and
+
+# Solution Roval DP
+# 25-08-2022
+
+class Solution:
+    def findAllConcatenatedWordsInADict(self, words: List[str]) -> List[str]:
+        
+        wordSet = set(words)
+        memo = {}
+        
+        def dfs(word):
+            if word in memo:
+                return memo[word]
+            memo[word] = False
+            for i in range(1,len(word)):
+                prefix = word[:i]
+                suffix = word[i:]
+                
+                if prefix in wordSet and suffix in wordSet:
+                    memo[word] = True
+                    return True
+                if prefix in wordSet and dfs(suffix):
+                    memo[word] = True
+                    return True
+                if suffix in wordSet and dfs(prefix):
+                    memo[word] = True
+                    return True
+            return False
+        
+        return [word for word in words if dfs(word)]
+
+# Solution Roval Bruteforce approach
+# 25-08-2022
+
+from collections import defaultdict
+class Solution:
+    def findAllConcatenatedWordsInADict(self, words: List[str]) -> List[str]:
+        trie = defaultdict(list)
+        for word in words:
+            trie[word[0]].append(word)
+        
+        def backtrack(word,isFirst):
+            if not word:
+                return True
+            for val in trie[word[0]]:
+                if isFirst and val == word:
+                    continue
+                if len(val)<=len(word) and val == word[:len(val)] and backtrack(word[len(val):],False):
+                    return True
+            return False
+        
+        ans = []
+        for i in words:
+            if backtrack(i,True):
+                    ans.append(i)
+        return ans

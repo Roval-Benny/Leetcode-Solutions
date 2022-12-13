@@ -1,0 +1,17 @@
+# Solution 1
+class Solution:
+    def letterCasePermutation(self, inp: str) -> List[str]:
+        ans = []
+        
+        def permutation(string,s):
+            if not string:
+                ans.append(s)
+                return
+            if string[0].isdigit():
+                permutation(string[1::],s+string[0])
+                return
+            permutation(string[1::],s+string[0].lower())
+            permutation(string[1::],s+string[0].upper())
+        
+        permutation(inp,'')
+        return ans

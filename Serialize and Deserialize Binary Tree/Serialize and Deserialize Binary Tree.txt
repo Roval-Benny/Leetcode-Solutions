@@ -1,0 +1,122 @@
+# Solution Roval T:O(N) S:O(N)
+# 20-10-2022
+
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Codec:
+
+    def serialize(self, root):
+        """Encodes a tree to a single string.
+        
+        :type root: TreeNode
+        :rtype: str
+        """
+        if not root:
+            return ''
+        data = []
+        stack = [root]
+        while stack:
+            temp = []
+            for i in range(len(stack)):
+                if stack[i]:
+                    data.append(str(stack[i].val))
+                    temp.append(stack[i].left)
+                    temp.append(stack[i].right)
+                else:
+                    data.append('#')
+            stack = temp
+        return ','.join(data)
+
+    def deserialize(self, data):
+        """Decodes your encoded data to tree.
+        
+        :type data: str
+        :rtype: TreeNode
+        """
+        if not data:
+            return None
+        datas = data.split(',')
+        node = TreeNode(datas[0])
+        nodes = [node]
+        i = 0
+        j = 1
+        while j+1<len(datas):
+            if datas[j]!='#':
+                nodes[i].left = TreeNode(datas[j])
+                nodes.append(nodes[i].left)
+            if datas[j+1]!='#':
+                nodes[i].right = TreeNode(datas[j+1])
+                nodes.append(nodes[i].right)
+            i+=1
+            j+=2
+        return node
+
+# Your Codec object will be instantiated and called as such:
+# ser = Codec()
+# deser = Codec()
+# ans = deser.deserialize(ser.serialize(root))
+
+#Solution Roval T:O(N) S:O(N)
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+from queue import deque
+class Codec:
+
+    def serialize(self, root):
+        """Encodes a tree to a single string.
+        
+        :type root: TreeNode
+        :rtype: str
+        """
+        if not root:
+            return ''
+        string =''
+        q = deque()
+        q.append(root)
+        while q:
+            node = q.popleft()
+            if node:
+                string = string+ str(node.val)+' '
+                q.append(node.left)
+                q.append(node.right)
+            else:
+                string = string+'N '
+        return string[:-1]
+
+    def deserialize(self, data):
+        """Decodes your encoded data to tree.
+        
+        :type data: str
+        :rtype: TreeNode
+        """
+        if not data:
+            return None
+        arr = data.split(' ')
+        root = TreeNode(int(arr[0]))
+        q = deque()
+        i = 0
+        q.append(root)
+        while q and i<len(arr):
+            node = q.popleft()
+            if arr[i+1]!='N':
+                node.left = TreeNode(int(arr[i+1]))
+                q.append(node.left)
+            if arr[i+2]!='N':
+                node.right = TreeNode(int(arr[i+2]))
+                q.append(node.right)
+            i+=2
+        return root
+
+# Your Codec object will be instantiated and called as such:
+# ser = Codec()
+# deser = Codec()
+# ans = deser.deserialize(ser.serialize(root))

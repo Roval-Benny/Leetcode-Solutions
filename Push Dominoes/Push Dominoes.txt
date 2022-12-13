@@ -1,0 +1,23 @@
+# Solution Roval T:O(N) S:O(N)
+# 27-09-2022
+
+class Solution:
+    def pushDominoes(self, dominoes: str) -> str:
+        ans = list(dominoes)
+        q = deque()
+        for idx,d in enumerate(dominoes):
+            if d=='.':
+                continue
+            q.append((d,idx))
+        while q:
+            d,idx = q.popleft()
+            if d == 'L' and idx>0 and ans[idx-1]=='.':
+                ans[idx-1] = 'L'
+                q.append(('L',idx-1))
+            if d == 'R' and idx+1<len(dominoes) and ans[idx+1]=='.':
+                if idx+2<len(dominoes) and ans[idx+2]=='L':
+                    q.popleft()
+                else:
+                    ans[idx+1] = 'R'
+                    q.append(('R',idx+1))
+        return ''.join(ans)

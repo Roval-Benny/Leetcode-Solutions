@@ -1,0 +1,137 @@
+# Solution Roval T:O(N) S:O(N)
+# 20-09-2022
+# Using Rank
+
+from typing import (
+    List,
+)
+
+class Solution:
+    """
+    @param n: An integer
+    @param edges: a list of undirected edges
+    @return: true if it's a valid tree, or false
+    """
+    def valid_tree(self, n: int, edges: List[List[int]]) -> bool:
+        # write your code here
+        parent = [i for i in range(n)]
+        rank = [1]*(n)
+
+        def parentFinder(node):
+            if node==parent[node]:
+                return node
+            return parentFinder(parent[node])
+        for e1,e2 in edges:
+            p1 = parentFinder(e1)
+            p2 = parentFinder(e2)
+            if p1==p2:
+                return False
+            if rank[p1]>=rank[p2]:
+                rank[p1]+=rank[p2]
+                parent[p2] = p1
+            else:
+                rank[p2]+=rank[p1]
+                parent[p1] = p2
+        count = 0
+        for index,val in enumerate(parent):
+            if index==val:
+                count+=1
+        return True if count==1 else False
+
+
+# Solution Roval T:O(V+E) S:O(V+E)
+# 20-09-2022
+# Using DFS
+
+from typing import (
+    List,
+)
+
+class Solution:
+    """
+    @param n: An integer
+    @param edges: a list of undirected edges
+    @return: true if it's a valid tree, or false
+    """
+    def valid_tree(self, n: int, edges: List[List[int]]) -> bool:
+        # write your code here
+        graph = collections.defaultdict(list)
+        for e1,e2 in edges:
+            graph[e1].append(e2)
+            graph[e2].append(e1)
+        visited = set()
+        def dfs(parent,node,visit):
+            ans = False
+            if node in visited:
+                return False
+            visited.add(node)
+            for n in graph[node]:
+                if n==parent:
+                    continue
+                if n in visit:
+                    return True
+                visit.add(n)
+                ans = ans or dfs(node,n,visit)
+                visit.remove(n)
+            return ans
+        output = not dfs(0,0,set())
+        if len(visited)!=n:
+            return False
+        return output
+
+
+# T:O(V+E) S:(V+E) V - vertices E - edges
+from typing import (
+    List,
+)
+
+class Solution:
+    """
+    @param n: An integer
+    @param edges: a list of undirected edges
+    @return: true if it's a valid tree, or false
+    """
+    def valid_tree(self, n: int, edges: List[List[int]]) -> bool:
+        # write your code here
+        def checkgraph(edges,n):
+            visited = [False]*n
+            edgesDict = dict()
+            visitedSet = set()
+            for i in edges:
+                if i[0] not in edgesDict:
+                    edgesDict[i[0]] = [i[1]]
+                else:
+                    edgesDict[i[0]].append(i[1])
+                if i[1] not in edgesDict:
+                    edgesDict[i[1]] = [i[0]]
+                else:
+                    edgesDict[i[1]].append(i[0])
+            
+            def validateGraph(node,parent):
+                visitedSet.add(node)
+                for i in edgesDict[node]:
+                    if i!=parent:
+                        if not visited[i]:
+                            visited[i] = True
+                            if validateGraph(i,node):
+                                visited[i] = False
+                            else:
+                                return False
+                        else:
+                            return False
+                return True
+            
+            visitedSet.add(edges[0][0])
+            visited[edges[0][0]] = True
+            ans = validateGraph(edges[0][0],-1)
+            if ans == False:
+                return False
+            if len(visitedSet) == n:
+                return True
+            else:
+                return False
+        if n == 1:
+            return True
+        if not edges:
+            return False
+        return checkgraph(edges,n)

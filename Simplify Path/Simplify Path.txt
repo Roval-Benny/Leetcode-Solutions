@@ -1,0 +1,23 @@
+```
+"/../home/"
+"/./jd/../kk/"
+"/./home/./k/"
+"/./fd/gf/./f"
+"/.../kk/"
+"/al/../../../i"
+"/"
+```
+
+# Solution Roval T:O(N) S:O(N)
+# 19-10-2022
+
+class Solution:
+    def simplifyPath(self, path: str) -> str:
+        stack = []
+        for p in path.split('/'):
+            if p == '..':
+                if stack:
+                    stack.pop(-1)
+            elif p and p!='.':
+                stack.append(p)
+        return '/'+'/'.join(stack)

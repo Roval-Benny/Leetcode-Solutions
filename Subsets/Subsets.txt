@@ -1,0 +1,11 @@
+#T:O(2^N) S:O(2^N)
+class Solution:
+    def subsets(self, nums: List[int]) -> List[List[int]]:
+        output = []
+        output.append([])
+        for i in nums:
+            temp=[]
+            for j in output:
+                temp.append(j+[i])
+            output+=temp
+        return output

@@ -1,0 +1,16 @@
+# Solution Roval T:O(NlogN) S:O(1)
+# 09-09-2022
+
+class Solution:
+    def numberOfWeakCharacters(self, properties: List[List[int]]) -> int:
+        properties.sort(key=lambda x:(-x[0],x[1]))
+        maxattack = properties[0][0]
+        maxdefence = properties[0][1]
+        count = 0
+        for i in range(1,len(properties)):
+            if properties[i][0]<maxattack and properties[i][1]<maxdefence:
+                count+=1
+            else:
+                maxattack = properties[i][0]
+                maxdefence = properties[i][1]
+        return count

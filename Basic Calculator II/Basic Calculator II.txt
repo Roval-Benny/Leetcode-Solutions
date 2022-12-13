@@ -1,0 +1,60 @@
+# Solution 1 T:O(N) S:(1)
+class Solution:
+    def calculate(self, s: str) -> int:
+        s+='K'
+        add = 0
+        last = 0
+        operator = '+'
+        number = 0
+        for i in s:
+            if i.isdigit():
+                number = number*10 + int(i)
+            elif i == ' ':
+                continue
+            else:
+                if operator=='+':
+                    add+=last
+                    last = number
+                elif operator =='-':
+                    add+=last
+                    last = -number
+                elif operator=='*':
+                    last*=number
+                else:
+                    temp = last/number
+                    temp = math.floor(temp) if temp>0  else math.ceil(temp)
+                    last = temp
+                number = 0
+                operator = i
+        return add+last
+
+
+# Solution 2 T:O(N) S:O(N)
+class Solution:
+    def calculate(self, s: str) -> int:
+        s+='K'
+        stack = []
+        operator = '+'
+        number = 0
+        for i in s:
+            if i.isdigit():
+                number = number*10 + int(i)
+            elif i == ' ':
+                continue
+            else:
+                if operator=='+':
+                    stack.append(number)
+                elif operator =='-':
+                    stack.append(-number)
+                elif operator=='*':
+                    stack.append(stack.pop(-1)*number)
+                else:
+                    temp = stack.pop(-1)/number
+                    temp = math.floor(temp) if temp>0  else math.ceil(temp)
+                    stack.append(temp)
+                number = 0
+                operator = i
+        add = 0
+        while stack:
+            add+=stack.pop(-1)
+        return add

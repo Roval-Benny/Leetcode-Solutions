@@ -1,0 +1,90 @@
+# Solution Roval T:(N) S:O(D) D- depth
+# 30-08-2022
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def flatten(self, root: Optional[TreeNode]) -> None:
+        """
+        Do not return anything, modify root in-place instead.
+        """
+        def dfs(node):
+            if not node:
+                return 
+            leftEnd = dfs(node.left)
+            rightEnd = dfs(node.right)
+            if leftEnd:
+                tr = node.right
+                node.right = node.left
+                node.left = None
+                leftEnd.right = tr
+            return rightEnd or leftEnd or node
+        dfs(root)
+
+
+# T:O(N) S:O(1)
+
+class Solution:
+    def __init__(self):
+        self.end = None
+    def flatten(self, root: Optional[TreeNode]) -> None:
+        if not root:
+            return -1
+        return self.inorder(root)
+    def inorder(self,root):
+        if not root:
+            return
+        self.inorder(root.left)
+        if not root.left and not root.right:
+            self.end = root
+            return
+        if root.left and self.end:
+            temp = root.right
+            root.right = root.left
+            root.left = None
+            self.end.right = temp
+            self.inorder(self.end.right)
+        else:
+            self.inorder(root.right)
+
+
+# T:O(N) S:O(N)
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def __init__(self):
+        self.newNode = None
+        self.pointer = None
+    def flatten(self, root: Optional[TreeNode]) -> None:
+        """
+        Do not return anything, modify root in-place instead.
+        """
+        if root:
+            self.newNode = TreeNode(root.val)
+            self.pointer = self.newNode
+            self.preOrder(root.left)
+            self.preOrder(root.right)
+            root.val = self.newNode.val
+            root.right=self.newNode.right
+            root.left = None
+    def preOrder(self,tree):
+        if not tree:
+            return 
+        self.flattener(tree.val)
+        self.preOrder(tree.left)
+        self.preOrder(tree.right)
+        
+    def flattener(self,val):
+        node = TreeNode(val)
+        self.pointer.right = node
+        self.pointer = node
+    

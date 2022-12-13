@@ -1,0 +1,22 @@
+# Solution - Roval T:O(m*n) to initialize sum array, O(m) to get sum in a rage S:O(m*n)
+class NumMatrix:
+
+    def __init__(self, matrix: List[List[int]]):
+        self.sum = []
+        for i in matrix:
+            temp = [0]
+            for j in i:
+                temp.append(temp[-1]+j)
+            self.sum.append(temp[:])
+            temp.clear()
+
+    def sumRegion(self, row1: int, col1: int, row2: int, col2: int) -> int:
+        total = 0
+        for i in range(row1,row2+1):
+            total+=(self.sum[i][col2+1]-self.sum[i][col1])
+        return total
+
+
+# Your NumMatrix object will be instantiated and called as such:
+# obj = NumMatrix(matrix)
+# param_1 = obj.sumRegion(row1,col1,row2,col2)

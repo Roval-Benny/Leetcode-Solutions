@@ -1,0 +1,39 @@
+#Solution Roval T:O(N) S:O(N)
+class Solution:
+    def maxProfit(self, prices: List[int]) -> int:
+        left = [0]*len(prices)
+        right = [0]*((len(prices)+1))
+        minV = prices[0]
+        maxV = 0
+        for i in range(1,len(prices)):
+            left[i] = max(left[i-1],prices[i]-minV)
+            minV = min(minV,prices[i])
+        
+        for i in range(len(prices)-1,-1,-1):
+            right[i] = max(right[i-1],maxV-prices[i])
+            maxV = max(maxV,prices[i])
+        
+        profit = right[0]
+        for i in range(len(prices)):
+            profit = max(profit,left[i]+right[i+1])
+        return profit
+
+#TLE
+# 04-08-2022
+#T: O(N^2) S: O(N^2)
+class Solution:
+    def maxProfit(self, prices: List[int]) -> int:
+        
+        def bestProfit(arr):
+            maxP = 0
+            minPrice = float('inf')
+            for i in arr:
+                if i-minPrice>maxP:
+                    maxP = i-minPrice
+                elif i<minPrice:
+                    minPrice = i
+            return maxP
+        maxProfit = 0
+        for i in range(len(prices)):
+            maxProfit = max(maxProfit,bestProfit(prices[0:i])+bestProfit(prices[i:]))
+        return maxProfit

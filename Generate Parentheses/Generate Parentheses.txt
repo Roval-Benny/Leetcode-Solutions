@@ -1,0 +1,59 @@
+# Solution Roval T:O(2^N) S:O(2^N)
+# 15-09-2022
+
+class Solution:
+    def generateParenthesis(self, n: int) -> List[str]:
+        ans = []
+        def backtrack(string,c1,c2):
+            if c1==n and c2==n:
+                ans.append(string)
+            if c2>c1:
+                return
+            if c1<n:
+                backtrack(string+'(',c1+1,c2)
+            if c2<n:
+                backtrack(string+')',c1,c2+1)
+            return 
+        backtrack('(',1,0)
+        return ans
+
+
+# Solution 1 T:O(2**N) S:O(2**N)
+class Solution:
+    def generator(self,string,open,close,answer):
+        if not open and not close:
+            answer.append(string)
+            return
+        if open:
+            self.generator(string+'(',open-1,close,answer)
+        if open<close:
+            self.generator(string+')',open,close-1,answer)
+        
+    def generateParenthesis(self, n: int) -> List[str]:
+        answer = []
+        self.generator('(',n-1,n,answer)
+        return answer
+
+
+# T:(4^N)/(N*sqrt(N)) S:(4^N)/(sqrt(N))
+class Solution:
+    def creater(self,n,string,result,brackets):
+        if len(string)==2*n:
+            result.append(string)
+            return
+        if brackets['(']>0:
+            brackets['(']-=1
+            self.creater(n,string+'(',result,brackets)
+            brackets['(']+=1
+        if brackets[')']>brackets['(']:
+            brackets[')']-=1
+            self.creater(n,string+')',result,brackets)
+            brackets[')']+=1
+            
+            
+    def generateParenthesis(self, n: int) -> List[str]:
+        brackets = {'(':n,')':n}
+        result = []
+        string=""
+        self.creater(n,string,result,brackets)
+        return result

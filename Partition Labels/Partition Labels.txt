@@ -1,0 +1,22 @@
+# Solution Roval T:O(N) S:O(1)
+# 22-08-2022
+
+from collections import Counter
+class Solution:
+    def partitionLabels(self, s: str) -> List[int]:
+        counter = Counter(s)
+        window = set()
+        ans = []
+        i = 0
+        string = 0
+        while i<len(s):
+            window.add(s[i])
+            counter[s[i]]-=1
+            string+=1
+            if counter[s[i]]==0:
+                window.remove(s[i])
+            if len(window)==0:
+                ans.append(string)
+                string= 0
+            i+=1
+        return ans

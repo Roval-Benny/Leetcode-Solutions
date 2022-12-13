@@ -1,0 +1,45 @@
+#T:O(N) S:O(1)
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def numberGen(self,node):
+        mult = 1
+        num = 0
+        while(node):
+            num+= (node.val*mult)
+            mult*=10
+            node = node.next
+        return num
+    
+    def number1Gen(self,first,head):
+        node = head
+        num1 = 0
+        mult = 1
+        while(node!=first):
+            num1 = (num1*mult)+node.val
+            mult=10
+            node=node.next
+        return num1
+
+    def isPalindrome(self, head: Optional[ListNode]) -> bool:
+        if not head:
+            return False
+        if not head.next:
+            return True
+        first = head
+        second = head.next
+        while(second.next and second.next.next):
+            first = first.next
+            second = second.next.next
+        if second.next:
+            num1 = self.number1Gen(first.next,head)
+            num2 = self.numberGen(first.next.next)
+        else:
+            num1 = self.number1Gen(first.next,head)
+            num2 = self.numberGen(first.next)
+        if num1==num2:
+            return True
+        return False

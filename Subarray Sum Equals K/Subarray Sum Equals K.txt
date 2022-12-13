@@ -1,0 +1,16 @@
+# Solution Roval T:O(N) S:O(N)
+# 26-10-2022
+
+class Solution:
+    def subarraySum(self, nums: List[int], k: int) -> int:
+        total = {0:1}
+        prefix = ans = 0
+        for i in nums:
+            prefix+=i
+            if prefix-k in total:
+                ans+=total[prefix-k]
+            if prefix not in total:
+                total[prefix] = 1
+            else:
+                total[prefix]+=1
+        return ans

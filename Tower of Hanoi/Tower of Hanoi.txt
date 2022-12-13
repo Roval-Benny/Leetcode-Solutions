@@ -1,0 +1,11 @@
+# T:O(2^N) S:O(N)
+
+D = int(input())
+
+def towerOfHanoi(n,source,ax,destination):
+    if n>0:
+        towerOfHanoi(n-1,source,destination,ax)
+        print("Disk ",n," moved from", source," to ",destination)
+        towerOfHanoi(n-1,ax,source,destination)
+        
+towerOfHanoi(D,'A','B','C')

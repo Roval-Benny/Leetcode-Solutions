@@ -1,0 +1,38 @@
+# Solution Roval T:O(N) S:O(1)
+# 03-10-2022
+
+class Solution:
+    def minCost(self, colors: str, neededTime: List[int]) -> int:
+        time,pos,total,maxV = 0,1,neededTime[0],neededTime[0]
+        while pos<len(colors):
+            if colors[pos-1]==colors[pos]:
+                maxV = max(maxV,neededTime[pos])
+                total+=neededTime[pos]
+            else:
+                time+=(total-maxV)
+                maxV = neededTime[pos]
+                total = neededTime[pos]
+            pos+=1
+        time+= (total-maxV)
+        return time
+
+# Solution Roval T:O(N) S:O(N)
+# 03-10-2022
+
+class Solution:
+    def minCost(self, colors: str, neededTime: List[int]) -> int:
+        stack = []
+        pos = time = 0
+        while pos<len(colors):
+            if stack and colors[pos]==stack[-1][0]:
+                time+=min(stack[-1][1],neededTime[pos])
+                if stack[-1][1]<neededTime[pos]:
+                    stack.pop(-1)[1]
+                    stack.append((colors[pos],neededTime[pos]))
+                    pos+=1
+                else:
+                    pos+=1
+            else:
+                stack.append((colors[pos],neededTime[pos]))
+                pos+=1
+        return time

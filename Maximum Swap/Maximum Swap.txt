@@ -1,0 +1,25 @@
+# Solution Roval T:O(logN) S:O(LogN)
+
+from heapq import _heapify_max, _heappop_max 
+class Solution:
+    def maximumSwap(self, num: int) -> int:
+        heap = []
+        temp = list(str(num))
+        for i in range(len(temp)):
+            heap.append((int(temp[i]),i))
+        _heapify_max(heap)
+        i = 0
+        while heap:
+            while heap and heap[0][1]<=i:
+                _heappop_max(heap)
+            
+            if not heap or i == len(temp):
+                break
+            t = heap[0]
+            if int(temp[i])<t[0] and i<t[1]:
+                digit = temp[i]
+                temp[i] = str(t[0])
+                temp[t[1]] = digit
+                return int(''.join(temp))
+            i+=1
+        return num

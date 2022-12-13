@@ -1,0 +1,58 @@
+# Optimal Solution - Roval using backtracking T:(N!/(N-R)!) S:O(N!/(N-R)!) R - repeated
+class Solution:
+    def permuteUnique(self, nums: List[int]) -> List[List[int]]:
+        ans = []
+        nums.sort()
+        def permutation(arr,temp):
+            if not arr:
+                ans.append(temp)
+                return 
+            for i in range(len(arr)):
+                if i!=0 and arr[i]==arr[i-1]:
+                    continue
+                permutation(arr[0:i]+arr[i+1:],temp+[arr[i]])
+        
+        permutation(nums,[])
+        return and
+
+#Solution 2: T:O(N!*N) S:O(N) using backtracking and more efficent
+    def backtracking(self,result,prem,nums,count):
+        if len(prem)==len(nums):
+            result.append(prem.copy())
+            return
+        for n in count:
+            if count[n]>0:
+                prem.append(n)
+                count[n]-=1
+                self.backtracking(result,prem,nums,count)
+                count[n]+=1
+                prem.pop(-1)
+        
+    def permuteUnique(self, nums: List[int]) -> List[List[int]]:
+        count = {}
+        result = []
+        for i in nums:
+            if i in count:
+                count[i]+=1
+            else:
+                count[i]=1
+        self.backtracking(result,[],nums,count)
+        return result
+
+
+
+#Solution 1 T:O(N!*N*N) S:O(N!)
+class Solution:
+    def permuteUnique(self, nums: List[int]) -> List[List[int]]:
+        output = [[nums[0]]]
+        for num in nums[1:]:
+            temp = output[:]
+            output.clear()
+            for j in temp:
+                pos = 0
+                while(pos<=len(j)):
+                    sample = j[0:pos]+[num]+j[pos:]
+                    if sample not in output:
+                        output.append(sample)
+                    pos+=1
+        return output

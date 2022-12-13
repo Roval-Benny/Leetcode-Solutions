@@ -1,0 +1,20 @@
+# Solution Roval T:O(N*M) S:O(1)
+# 31-10-2022
+
+class Solution:
+    def isToeplitzMatrix(self, matrix: List[List[int]]) -> bool:
+        ROWS = len(matrix)
+        COLS = len(matrix[0])
+        def checker(i,j):
+            if i==ROWS or j==COLS:
+                return True
+            if i!=0 and j!=0 and matrix[i-1][j-1]!=matrix[i][j]:
+                return False
+            return checker(i+1,j+1)
+        for i in range(len(matrix)):
+            if not checker(i,0):
+                return False
+        for j in range(len(matrix[0])):
+            if not checker(0,j):
+                return False
+        return True

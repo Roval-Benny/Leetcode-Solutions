@@ -1,0 +1,105 @@
+#Solution 1
+class Solution:
+    def tictactoe(self, moves: List[List[int]]) -> str:
+        matrix = [[0 for i in range(3)] for j in range(3)]
+        boolean = True
+        for i in moves:
+            if boolean:
+                matrix[i[0]][i[1]] = 1
+                boolean = False
+            else:
+                matrix[i[0]][i[1]] = -1
+                boolean = True
+        for i in range(3):
+            add = sum(matrix[i][::])
+            if add == 3:
+                return "A"
+            elif add == -3:
+                return "B"
+        
+        for i in range(3):
+            add = 0
+            for j in range(3):
+                add+=matrix[j][i]
+            if add == 3:
+                return "A"
+            elif add==-3:
+                return "B"
+        
+        add = 0
+        for i in range(3):
+            add+=matrix[i][i]
+        if add==3:
+            return "A"
+        elif add==-3:
+            return "B"
+        
+        add = 0
+        for i in range(3):
+            add+= matrix[2-i][i]
+        if add==3:
+            return "A"
+        elif add==-3:
+            return "B"
+        
+        if len(moves)==9:
+            return "Draw"
+        
+        return "Pending"
+            
+
+#Solution 2
+class Solution:
+    def tictactoe(self, moves: List[List[int]]) -> str:
+        
+        m = self.createMatrix(moves)
+        isPending = False
+        for i in range(3):
+            row_out = self.whoWins(m[i][0],m[i][1],m[i][2])
+            col_out = self.whoWins(m[0][i],m[1][i],m[2][i])
+            
+            if row_out != 'Pending' and row_out != 'Draw':
+                return row_out
+            elif row_out == 'Pending':
+                isPending = True
+            
+            if col_out != 'Pending' and col_out != 'Draw':
+                return col_out
+            elif col_out == 'Pending':
+                isPending = True
+                
+        topDownDig = self.whoWins(m[0][0],m[1][1],m[2][2])
+        if topDownDig != 'Pending' and topDownDig != 'Draw':
+                return topDownDig
+        elif topDownDig == 'Pending':
+                isPending = True
+                
+        bottomUpDig = self.whoWins(m[0][2],m[1][1],m[2][0])
+        if bottomUpDig != 'Pending' and bottomUpDig != 'Draw':
+                return bottomUpDig
+        elif bottomUpDig == 'Pending':
+                isPending = True
+                
+        return 'Pending' if isPending else 'Draw'
+                
+        
+    
+    def createMatrix(self,moves):
+        count = 0
+        matrix = [[None]*3 for _ in range(3)]
+        for x,y in moves:
+            if count%2 == 0:
+                matrix[x][y] = 0
+            else:
+                matrix[x][y] = 1
+            count+=1
+        return matrix
+    
+    def whoWins(self,x,y,z):
+        if  x == None or  y == None or  z == None:
+            return  'Pending'
+        elif x+y+z == 0:
+            return 'A'
+        elif x+y+z == 3:
+            return 'B'
+        return 'Draw'

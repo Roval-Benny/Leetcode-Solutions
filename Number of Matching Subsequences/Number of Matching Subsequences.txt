@@ -1,0 +1,23 @@
+# Solution Roval T:O(N*M) S:O(M)
+# 12-08-2022
+
+from collections import defaultdict
+class Solution:
+    def numMatchingSubseq(self, s: str, words: List[str]) -> int:
+        trie = defaultdict(list)
+        for i in words:
+            trie[i[0]].append(i)
+            
+        count = 0
+        for char in s:
+            if char in trie:
+                temp = trie[char]
+                trie.pop(char)
+                for i in range(len(temp)):
+                    if len(temp[i])==1:
+                        count+=1
+                    temp[i] = temp[i][1:] if len(temp[i])>1 else ""
+                for i in temp:
+                    if len(i)>0:
+                        trie[i[0]].append(i)
+        return count

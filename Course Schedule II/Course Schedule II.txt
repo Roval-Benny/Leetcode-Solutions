@@ -1,0 +1,69 @@
+# Solution Roval T:O(V+E) S:O(V)
+# 21-09-2022
+class Solution:
+    def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
+        graph = defaultdict(list)
+        for e1,e2 in prerequisites:
+            graph[e1].append(e2)
+        ans = []
+        sort = set()
+        visited = set()
+        def dfs(node):
+            if node in sort:
+                return True
+            if node in visited:
+                return False
+            visited.add(node)
+            for e in graph[node]:
+                if not dfs(e):
+                    return False
+            sort.add(node)
+            visited.remove(node)
+            ans.append(node)
+            return True
+        
+        for i in range(numCourses):
+            if not dfs(i):
+                return []
+        return ans
+
+
+# Solution 1 - Roval T:O(V+E) S:O(V+E)
+import collections
+class Solution:
+    def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
+        graph = collections.defaultdict(list)
+        
+        for a,b in prerequisites:
+            graph[a].append(b)
+        
+        completed = []
+        visitedNode = set()
+        
+        def dfs(c):
+            if visited[c]:
+                return False
+            if c not in graph or c in visitedNode:
+                return True
+            visitedNode.add(c)
+            visited[c] = True
+            
+            for i in graph[c]:
+                if not dfs(i):
+                    return False
+            completed.append(c)
+            visited[c] = False
+            return True
+        
+        for i in range(numCourses):
+            if i not in graph:
+                completed.append(i)
+                visitedNode.add(i)
+                
+        visited = [False]*numCourses
+        
+        for c in graph:
+            if c not in visitedNode:
+                if not dfs(c):
+                    return []
+        return completed

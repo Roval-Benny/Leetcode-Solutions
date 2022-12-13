@@ -1,0 +1,30 @@
+# Solution Roval T:O(S+P) S:O(P)
+# 09-08-2022
+from collections import Counter
+class Solution:
+    def findAnagrams(self, s: str, p: str) -> List[int]:
+        if len(p)>len(s):
+            return []
+        counter = Counter(p)
+        ans = []
+        slider = Counter(s[0:len(p)])
+        def checker():
+            for i in counter:
+                if i not in slider or counter[i]!=slider[i]:
+                    return False
+            return True
+        if checker():
+            ans.append(0)
+        index = len(p)
+        first = 1
+        while index!=len(s):
+            slider[s[first-1]]-=1
+            if s[index] not in slider:
+                slider[s[index]] = 1
+            else:
+                slider[s[index]]+=1
+            if checker():
+                ans.append(first)
+            first+=1
+            index+=1
+        return ans

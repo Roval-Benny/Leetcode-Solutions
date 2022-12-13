@@ -1,0 +1,53 @@
+
+# Solution Roval T:O(N^2) S:O(N)
+# 19-09-2022
+
+class Solution:
+    def findRedundantConnection(self, edges: List[List[int]]) -> List[int]:
+        parent = [i for i in range(len(edges)+1)]
+        
+        def parentfinder(node):
+            if node == parent[node]:
+                return node
+            return parentfinder(parent[node])
+        for e1,e2 in edges:
+            parent1 = parentfinder(e1)
+            parent2 = parentfinder(e2)
+            if parent1==parent2:
+                return [e1,e2]
+            parent[parent2] = parent[parent1]
+
+
+# Solution Roval T:(N) S:O(N)
+# 17-08-2022
+'''Time Complexity: O(N\alpha(N)) \approx O(N)O(Nα(N))≈O(N), 
+where NN is the number of vertices (and also the number of edges) 
+in the graph, and \alphaα is the Inverse-Ackermann function.
+ We make up to NN queries of dsu.union, which takes (amortized) O(\alpha(N))O(α(N)) time.
+Outside the scope of this article, it can be shown why dsu.union has O(\alpha(N))O(α(N))
+ complexity, what the Inverse-Ackermann function is, and why O(\alpha(N))O(α(N)) 
+is approximately O(1)O(1).
+Space Complexity: O(N)O(N). The current construction of the graph
+ (embedded in our dsu structure)
+ has at most NN nodes.'''
+class Solution:
+    def findRedundantConnection(self, edges: List[List[int]]) -> List[int]:
+        parent = [-1]*(len(edges)+1)
+        rank = [1]*(len(edges)+1)
+        
+        def unionFinder(node):
+            while parent[node]!=-1:
+                node = parent[node]
+            return node
+        for edge in edges:
+            parent1 = unionFinder(edge[0])
+            parent2 = unionFinder(edge[1])
+            if parent1 == parent2:
+                return edge
+            if rank[parent1]>=rank[parent2]:
+                rank[parent1]+=rank[parent2]
+                parent[parent2] = parent1
+            else:
+                rank[parent2]+=rank[parent1]
+                parent[parent1] = parent2
+        return []

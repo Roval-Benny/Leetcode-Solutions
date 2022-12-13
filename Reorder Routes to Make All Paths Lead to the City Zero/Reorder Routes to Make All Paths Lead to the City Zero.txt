@@ -1,0 +1,25 @@
+# Solution Roval T:O(N) S:O(N)
+# 20-09-2022
+
+class Solution:
+    def minReorder(self, n: int, connections: List[List[int]]) -> int:
+        edges = { (e1,e2) for e1,e2 in connections}
+        neighbours = collections.defaultdict(list)
+        visited = set()
+        changes = 0
+        for e1,e2 in connections:
+            neighbours[e1].append(e2)
+            neighbours[e2].append(e1)
+        
+        def dfs(city):
+            nonlocal changes
+            for neighbour in neighbours[city]:
+                if neighbour in visited:
+                    continue
+                if (neighbour,city) not in edges:
+                    changes+=1
+                visited.add(neighbour)
+                dfs(neighbour)
+        visited.add(0)
+        dfs(0)
+        return changes

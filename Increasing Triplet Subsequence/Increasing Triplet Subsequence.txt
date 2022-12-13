@@ -1,0 +1,14 @@
+# Solution Roval T:O(N) S:O(1)
+# 11-10-2022
+
+class Solution:
+    def increasingTriplet(self, nums: List[int]) -> bool:
+        i = j = float('inf')
+        for val in nums:
+            if val <=i:
+                i = val
+            elif val<=j:
+                j = val
+            else:
+                return True
+        return False

@@ -1,0 +1,30 @@
+# Solution Roval T:O(N) S:O(N)
+# 20-08-2022
+
+class MovingAverage(object):
+    """
+    @param: size: An integer
+    """
+    def __init__(self, size):
+        # do intialization if necessary
+        self.total = 0
+        self.count = 0
+        self.size = size
+        self.nums = [0]*size
+
+    """
+    @param: val: An integer
+    @return:  
+    """
+    def next(self, val):
+        # write your code here
+        if self.count<self.size:
+            self.count+=1
+        self.total = self.total - self.nums[-self.size] + val
+        self.nums.append(val)
+        return self.total/self.count
+
+
+# Your MovingAverage object will be instantiated and called as such:
+# obj = MovingAverage(size)
+# param = obj.next(val)

@@ -1,0 +1,15 @@
+# 30-09-2022
+
+class Solution:
+    def getSkyline(self, buildings: List[List[int]]) -> List[List[int]]:
+        heights = sorted([(L,-H,R) for L,R,H in buildings] + [(R,0,"") for _,R,_ in buildings])
+        result, maxHeap = [[0,0]],[(0,float('inf'))]
+        for x,negH,y in heights:
+            while x>=maxHeap[0][1]:
+                heapq.heappop(maxHeap)
+            if negH:
+                heapq.heappush(maxHeap,(negH,y))
+            curr_max_height =- maxHeap[0][0]
+            if result[-1][1]!=curr_max_height:
+                result.append([x,curr_max_height])
+        return result[1:]

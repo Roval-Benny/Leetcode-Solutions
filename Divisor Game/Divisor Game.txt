@@ -1,0 +1,27 @@
+# Solution Roval T:O(1) S:O(1)
+# 09-08-2022
+class Solution:
+    def divisorGame(self, n: int) -> bool:
+        return n&1 == 0
+
+# Solution Roval, not efficient but can do in T: O(1)and S:O(1)
+# 09-08-2022
+class Solution:
+    def divisorGame(self, k: int) -> bool:
+        
+        memo = dict()
+        
+        def backtrack(n,flag):
+            if n==1 and flag:
+                return True
+            elif n==1 and not flag:
+                return False
+            if (n,flag) in memo:
+                return memo[(n,flag)]
+            for i in range(1,n):
+                if n%i==0:
+                    memo[(n,flag)] = backtrack(n-i,not flag)
+                    return memo[(n,flag)]
+            return False
+        
+        return backtrack(k,False)

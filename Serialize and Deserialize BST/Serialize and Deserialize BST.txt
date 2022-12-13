@@ -1,0 +1,77 @@
+# Solution 1 - Roval T:O(N) S:O(N)
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+from collections import deque
+class Codec:
+
+    def serialize(self, root: Optional[TreeNode]) -> str:
+        """Encodes a tree to a single string.
+        """
+        if not root:
+            return ''
+        queue = deque()
+        queue.append(root)
+        ans = str(root.val)
+        while queue:
+            node = queue.popleft()
+            left = node.left
+            right = node.right
+            if left:
+                queue.append(left)
+                ans+= ','+str(left.val)
+            else:
+                ans+=',N'
+            if right:
+                queue.append(right)
+                ans+= ','+str(right.val)
+            else:
+                ans+=',N'
+        return ans
+
+    def deserialize(self, data: str) -> Optional[TreeNode]:
+        """Decodes your encoded data to tree.
+        """
+        if len(data)==0:
+            return None
+        i = 0
+        number = 0
+        temp = []
+        while i<len(data):
+            if data[i].isdigit():
+                number = number*10 + int(data[i])
+            elif data[i]==',':
+                temp.append(number)
+                number = 0
+            elif data[i]=='N':
+                temp.append(None)
+                i+=1
+            i+=1
+        header = TreeNode(temp[0])
+        queue = deque()
+        queue.append(header)
+        i = 1
+        while i<len(temp) and queue and len(temp)>2:
+            node = queue.popleft()
+            left = temp[i]
+            right = temp[i+1]
+            if left!=None:
+                sample = TreeNode(left)
+                node.left = sample
+                queue.append(sample)
+            if right!=None:
+                sample = TreeNode(right)
+                node.right = sample
+                queue.append(sample)
+            i+=2
+        return header
+# Your Codec object will be instantiated and called as such:
+# Your Codec object will be instantiated and called as such:
+# ser = Codec()
+# deser = Codec()
+# tree = ser.serialize(root)
+# ans = deser.deserialize(tree)
+# return ans

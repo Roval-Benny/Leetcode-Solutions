@@ -1,0 +1,32 @@
+"""
+# Solution Roval T:O(N) S:O(N)
+# Definition for a Node.
+class Node:
+    def __init__(self, x: int, next: 'Node' = None, random: 'Node' = None):
+        self.val = int(x)
+        self.next = next
+        self.random = random
+"""
+
+class Solution:
+    def copyRandomList(self, head: 'Optional[Node]') -> 'Optional[Node]':
+        if not head:
+            return None
+        node = head
+        nodeDict = {}
+        nodeDict[None] = None
+        new = Node(-1)
+        pointer = new
+        while node:
+            temp = Node(node.val)
+            pointer.next = temp
+            nodeDict[node] = temp
+            node = node.next
+            pointer = pointer.next
+        node = head
+        pointer = new.next
+        while node:
+            pointer.random = nodeDict[node.random]
+            pointer = pointer.next
+            node = node.next
+        return new.next

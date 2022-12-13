@@ -1,0 +1,14 @@
+#T:O(logN) S:O(1)
+class Solution:
+    def minFlips(self, a: int, b: int, c: int) -> int:
+        count = 0
+        temp = 1
+        while(temp<=c or temp<=a or temp<=b):
+            if (((a&temp) or (b&temp))==0 and (c&temp)>=1):
+                count+=1
+            elif((a&temp)>=1 and (b&temp)>=1 and (c&temp)==0):
+                count+=2
+            elif (((a&temp)>=1 or (b&temp)>=1)==1 and (c&temp)==0):
+                count+=1
+            temp=temp<<1
+        return count

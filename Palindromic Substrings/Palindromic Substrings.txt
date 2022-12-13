@@ -1,0 +1,25 @@
+# Solution - Roval T:O(N^2) S:O(1)
+class Solution:
+    def countSubstrings(self, s: str) -> int:
+        def checker(j,k):
+            count = 0
+            while j>=0 and k<len(s) and s[j] == s[k]:
+                count+=1
+                j-=1
+                k+=1
+            return count
+        countSub = 0
+        for i in range(len(s)):
+            countSub+=checker(i,i)
+            countSub+=checker(i,i+1)
+        return countSub
+
+# Solution - Roval T:O(N^3) S:O(1)
+class Solution:
+    def countSubstrings(self, s: str) -> int:
+        count = 0
+        for i in range(len(s)-1):
+            for j in range(i+1,len(s)):
+                if s[i:j] == s[j:i:-1]:
+                    count+=1
+        return count+len(s)

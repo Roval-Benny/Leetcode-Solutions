@@ -1,0 +1,32 @@
+# Solution Roval T:O(m*n) S:O(m*n)
+from typing import (
+    List,
+)
+from queue import deque
+class Solution:
+    """
+    @param rooms: m x n 2D grid
+    @return: nothing
+    """
+    def walls_and_gates(self, rooms: List[List[int]]):
+        # write your code here
+        q = deque()
+        for i in range(len(rooms)):
+            for j in range(len(rooms[0])):
+                if rooms[i][j]==0:
+                    q.append((i,j))
+        distance = 1
+        dir = [(0,1),(1,0),(0,-1),(-1,0)]
+        while q:
+            temp_q = deque()
+            while q:
+                pos = q.popleft()
+                for i in dir:
+                    row = pos[0]+i[0]
+                    col = pos[1]+i[1]
+
+                    if 0<=row<len(rooms) and 0<=col<len(rooms[0]) and rooms[row][col]>distance:
+                        rooms[row][col] = distance
+                        temp_q.append((row,col))
+            q = temp_q
+            distance+=1

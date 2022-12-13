@@ -1,0 +1,21 @@
+# Solution Roval T:O(N*N*D)
+# 17-10-2022
+
+class Solution:
+    def minDifficulty(self, jobs: List[int], d: int) -> int:
+            N = len(jobs)
+            if N<d:
+                return -1
+            @cache
+            def backtrack(index,D):
+                if index==N and D==0:
+                    return 0
+                if index==N or D==0:
+                    return float('inf')
+                maxv = float('-inf')
+                minv = float('inf')
+                for i in range(index,N):
+                    maxv = max(maxv,jobs[i])
+                    minv = min(minv,maxv+backtrack(i+1,D-1))
+                return minv
+            return backtrack(0,d)

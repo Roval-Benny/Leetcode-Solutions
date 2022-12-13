@@ -1,0 +1,45 @@
+# Solution Roval T:O(logN) S:O(1)
+# 16-11-2022
+
+class Solution:
+    def isHappy(self, n: int) -> bool:
+        
+        def getSquare(num):
+            result = 0
+            while num:
+                rem = num % 10
+                num = num//10
+                rem = rem **2
+                result += rem
+            return result
+        slow = n
+        fast = getSquare(n)
+        while fast!=1 and fast!=slow:
+            slow = getSquare(slow)
+            fast = getSquare(getSquare(fast))
+        return fast == 1
+
+
+# Solution Roval T:O(logN) S:O(logN)
+# 16-11-2022
+
+class Solution:
+    def isHappy(self, n: int) -> bool:
+        
+        visited = set()
+        
+        def getSquare(num):
+            result = 0
+            while num:
+                rem = num % 10
+                num = num//10
+                rem = rem **2
+                result += rem
+            return result
+        
+        while n not in visited:
+            visited.add(n)
+            n = getSquare(n)
+            if n==1:
+                return True
+        return False

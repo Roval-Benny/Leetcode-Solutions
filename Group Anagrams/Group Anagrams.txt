@@ -1,0 +1,31 @@
+# Solution Roval T:O(MlogM*N) S:O(N*M)
+# 20-08-2022
+
+from collections import defaultdict
+class Solution:
+    def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
+        wordDict = defaultdict(list)
+        for word in strs:
+            temp = sorted(word)
+            wordDict[tuple(temp)].append(word)
+            
+        ans = []
+        for i in wordDict:
+            ans.append(wordDict[i])
+        return and
+
+# T:O(MlogM * N) S:O(N) M - length of word
+class Solution:
+    def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
+        dictionary = {}
+        for word in strs:
+            temp = sorted(word)
+            temp = ''.join(temp)
+            if temp in dictionary:
+                dictionary[temp].append(word)
+            else:
+                dictionary[temp] = [word]
+        result = []
+        for i in dictionary:
+            result.append(dictionary[i])
+        return result

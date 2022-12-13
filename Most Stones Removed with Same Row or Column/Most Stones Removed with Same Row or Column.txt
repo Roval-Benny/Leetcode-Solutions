@@ -1,0 +1,29 @@
+# Solution Roval T:O(N) S:O(N)
+# 15-11-2022
+
+class Solution:
+    def removeStones(self, stones: List[List[int]]) -> int:
+        row = defaultdict(list)
+        col = defaultdict(list)
+        visited = set()
+        
+        for r,c in stones:
+            row[r].append((r,c))
+            col[c].append((r,c))
+        
+        def dfs(r,c):
+            if (r,c) in visited:
+                return 0
+            visited.add((r,c))
+            for ro,co in chain(row[r],col[c]):
+                dfs(ro,co)
+            return 1
+        return len(stones) - sum(dfs(r,c) for r,c in stones)
+
+'''
+[[0,0],[0,1],[1,0],[1,2],[2,1],[2,2]]
+[[0,0],[0,2],[1,1],[2,0],[2,2]]
+[[0,0]]
+[[0,0],[0,1],[1,0],[1,2],[2,1],[2,2]]
+[[0,0],[0,2],[1,1],[2,2],[1,4],[0,3]]
+'''

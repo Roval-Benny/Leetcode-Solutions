@@ -1,0 +1,21 @@
+# Solution Roval T:O(1) S:O(1)
+# 17-11-2022
+
+class Solution:
+    def computeArea(self, ax1: int, ay1: int, ax2: int, ay2: int, bx1: int, by1: int, bx2: int, by2: int) -> int:
+        A1 = (abs(ax1-ax2))*(abs(ay1-ay2))
+        B1 = (abs(bx1-bx2))*(abs(by1-by2))
+        total = A1+B1
+        
+        left = max(ax1,bx1)
+        right = min(ax2,bx2)
+        
+        bottom = max(ay1,by1)
+        top = min(ay2,by2)
+        
+        xoverlap = right - left
+        yoverlap = top - bottom
+        
+        if xoverlap<0 or yoverlap<0:
+            return total
+        return total - xoverlap*yoverlap

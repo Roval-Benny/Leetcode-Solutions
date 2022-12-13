@@ -1,0 +1,56 @@
+# Solution Roval T:O(N) S:O(logN)
+# 22-08-2022
+
+from typing import (
+    List,
+)
+from lintcode import (
+    TreeNode,
+)
+
+"""
+Definition of TreeNode:
+class TreeNode:
+    def __init__(self, val):
+        self.val = val
+        self.left, self.right = None, None
+"""
+
+class Solution:
+    """
+    @param root: a TreeNode
+    @return: a list of integer
+    """
+    def boundary_of_binary_tree(self, root: TreeNode) -> List[int]:
+        # write your code here
+        if not root:
+            return []
+        ans = []
+
+        def leftBoundary(node,flag):
+            if not node:
+                return
+            if not node.left and not node.right:
+                ans.append(node.val)
+                return
+            if flag:
+                ans.append(node.val)
+            leftBoundary(node.left,flag)
+            leftBoundary(node.right,flag and not node.left)
+            return 
+
+        def rightBoundary(node,flag):
+            if not node:
+                return 
+            if not node.left and not node.right:
+                ans.append(node.val)
+                return
+            rightBoundary(node.left, flag and not node.right)
+            rightBoundary(node.right,flag)
+            if flag:
+                ans.append(node.val)
+            return
+        ans.append(root.val)
+        leftBoundary(root.left,True)
+        rightBoundary(root.right,True)
+        return ans

@@ -1,0 +1,22 @@
+# Solution Roval T:O(N*log(max(piles))) S:O(1)
+# 07-11-2022
+
+class Solution:
+    def minEatingSpeed(self, piles: List[int], h: int) -> int:
+        
+        def finder(k):
+            th = h
+            for i in piles:
+                th-=math.ceil(i/k)
+            return th < 0 
+        
+        left = 1
+        right = max(piles)
+        
+        while left<=right:
+            mid = (left+right)//2
+            if finder(mid):
+                left = mid+1
+            else:
+                right = mid-1
+        return left

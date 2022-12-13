@@ -1,0 +1,19 @@
+# Solution Roval 
+# 10-09-2022
+
+class Solution:
+    def maxProfit(self, k: int, prices: List[int]) -> int:
+        
+        memo = dict()
+        
+        def backtrack(pos,times,minv):
+            if (pos,times,minv) in memo:
+                return memo[(pos,times,minv)]
+            if times==k or pos==len(prices):
+                return 0
+            if minv<prices[pos]:
+                memo[(pos,times,minv)] = max(prices[pos]-minv + backtrack(pos+1,times+1,float('inf')),backtrack(pos+1,times,minv))
+            else:
+                memo[(pos,times,minv)] = backtrack(pos+1,times,prices[pos])
+            return memo[(pos,times,minv)]
+        return backtrack(0,0,float('inf'))

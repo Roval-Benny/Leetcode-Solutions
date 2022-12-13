@@ -1,0 +1,31 @@
+# Solution Roval T:O(M*N^2) S:O(N)
+# 29-09-2022
+
+class Solution:
+    def ladderLength(self, bw: str, ew: str, wordList: List[str]) -> int:
+        if ew not in wordList:
+            return 0
+        neig = defaultdict(list)
+        wordList.append(bw)
+        for word in wordList:
+            for j in range(len(word)):
+                pattern = word[:j] + "*" + word[j+1:]
+                neig[pattern].append(word)
+        change = 0
+        visited = set([bw])
+        q = [bw]
+        while q:
+            change += 1
+            temp = []
+            while q:
+                word = q.pop(-1)
+                if word == ew:
+                    return change
+                for j in range(len(word)):
+                    pattern = word[:j]+"*"+word[j+1:]
+                    for w in neig[pattern]:
+                        if w not in visited:
+                            visited.add(w)
+                            temp.append(w)
+            q = temp
+        return 0

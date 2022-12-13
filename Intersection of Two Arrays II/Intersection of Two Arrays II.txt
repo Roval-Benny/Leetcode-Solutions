@@ -1,0 +1,17 @@
+#T:O(N+M) S:O(M)
+from collections import Counter
+class Solution:
+    
+    def creator(self,arr1,arr2):
+        output = []
+        counter = Counter(arr1)
+        for i in arr2:
+            if i in counter and counter[i]>0:
+                counter[i]-=1
+                output.append(i)
+        return output
+    def intersect(self, nums1: List[int], nums2: List[int]) -> List[int]:
+        if len(nums1)>len(nums2):
+            return self.creator(nums2,nums1)
+        else:
+            return self.creator(nums1,nums2)

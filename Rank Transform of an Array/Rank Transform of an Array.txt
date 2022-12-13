@@ -1,0 +1,14 @@
+# T:O(NlogN) S:(N)
+class Solution:
+    def arrayRankTransform(self, arr: List[int]) -> List[int]:
+        sample = sorted(arr)
+        rank = {}
+        count = 1
+        for i in sample:
+            if i not in rank:
+                rank[i] = count
+                count+=1
+        output = []
+        for i in arr:
+            output.append(rank[i])
+        return output

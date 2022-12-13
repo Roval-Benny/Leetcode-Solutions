@@ -1,0 +1,31 @@
+# Solution Roval T:O(LogN) S:O(1)
+# 20-08-2022
+
+class Solution:
+    def findMin(self, nums: List[int]) -> int:
+        start = 0
+        end = len(nums)-1
+        while start<=end:
+            mid = (start+end)//2
+            if nums[mid]<nums[end]:
+                end = mid
+            else:
+                start = mid+1
+        return nums[mid]
+
+
+# Solution Roval T:O(logN) S:O(1)
+class Solution:
+    def findMin(self, arr: List[int]) -> int:
+        start ,end = 0, len(arr)-1
+        if arr[start]<=arr[end]:
+            return arr[start]
+        while(start<=end):
+            mid = (start+end)//2
+            if mid-1>-1 and arr[mid-1]>arr[mid]:
+                return arr[mid]
+            elif arr[mid]>arr[end]:
+                start = mid+1
+            else:
+                end = mid-1
+        return -1

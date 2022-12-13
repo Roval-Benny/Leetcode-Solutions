@@ -1,0 +1,8 @@
+# Solution Roval T:O(N) S:O(N)
+# 30-11-2022
+
+class Solution:
+    def uniqueOccurrences(self, arr: List[int]) -> bool:
+        counter = Counter(arr)
+        occurrences = set(counter.values())
+        return len(counter) == len(occurrences)

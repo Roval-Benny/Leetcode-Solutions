@@ -1,0 +1,29 @@
+# T:O(N) S:O(1)
+class Solution:
+    def addStrings(self, num1: str, num2: str) -> str:
+        output = ""
+        pointer1 = len(num1)-1
+        pointer2 = len(num2)-1
+        rem = 0
+        digits = {"0":0,"1":1,"2":2,"3":3,"4":4,"5":5,"6":6,"7":7,"8":8,"9":9}
+        while pointer1>=0 and pointer2>=0:
+            add = digits[num1[pointer1]]+digits[num2[pointer2]]+rem
+            output+=str(add%10)
+            rem = add//10
+            pointer1-=1
+            pointer2-=1
+            
+        while pointer1>=0:
+            add = digits[num1[pointer1]]+rem
+            output+=str(add%10)
+            rem = add//10
+            pointer1-=1
+        
+        while pointer2>=0:
+            add = digits[num2[pointer2]]+rem
+            output+=str(add%10)
+            rem = add//10
+            pointer2-=1
+        if rem!=0:
+            output+=str(rem)
+        return output[::-1]

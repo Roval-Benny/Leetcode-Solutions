@@ -1,0 +1,25 @@
+class Solution:
+    def __init__(self):
+        self.count = 0
+    def backtracking(self,result,col,posD,negD,n):
+        if len(result)==n:
+            self.count+=1
+            return 
+        row = len(col)-1
+        for i in range(n):
+            if i in col or (row-i) in negD or (row+i) in posD:
+                continue
+            result.append(i)
+            col.add(i)
+            posD.add(row+i)
+            negD.add(row-i)
+            self.backtracking(result,col,posD,negD,n)
+            col.remove(i)
+            posD.remove(row+i)
+            negD.remove(row-i)
+            result.pop(-1)
+            
+    def totalNQueens(self, n: int) -> int:
+        self.backtracking([],set(),set(),set(),n)
+        return self.count
+        

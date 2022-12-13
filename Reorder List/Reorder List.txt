@@ -1,0 +1,29 @@
+# Solution - Roval T: O(N) S: O(N); try to do in O(1)
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def reorderList(self, head: Optional[ListNode]) -> None:
+        """
+        Do not return anything, modify head in-place instead.
+        """
+        temp = head
+        nodes = []
+        while temp:
+            nodes.append(temp)
+            temp = temp.next            
+        l = 0
+        r = len(nodes)-1
+        temp = ListNode(-1)
+        while l<r:
+            temp.next = nodes[l]
+            nodes[l].next = nodes[r]
+            nodes[r].next = None
+            temp = temp.next.next
+            l+=1
+            r-=1
+        if len(nodes)%2:
+            temp.next = nodes[l]
+            temp.next.next = None

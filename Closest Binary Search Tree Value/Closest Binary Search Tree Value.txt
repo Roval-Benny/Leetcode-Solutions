@@ -1,0 +1,23 @@
+#Solution 1 T:O(H) S:O(1) H - height of tree
+def findClosestValueInBst(tree,target):
+	opt = tree.value
+	while tree:
+		if abs(tree.value-target)<abs(opt-target):
+			opt = tree.value
+		if tree.value < target:
+			tree = tree.right
+		else:
+			tree = tree.left
+	return opt
+
+# Solution 2 T:O(H) S:O(1) 
+def findClosestValueInBst(tree, target):
+    minValue = tree.value
+    while tree:
+        if abs(tree.value-target) < abs(target-minValue):
+            minValue = tree.value
+        if (target - tree.value) < 0:
+              tree = tree.left
+        else:
+              tree = tree.right
+    return minValue

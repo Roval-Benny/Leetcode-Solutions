@@ -1,0 +1,17 @@
+# Solution Roval T:O(N) S:O(N)
+# 25-10-2022
+
+class Solution:
+    def sortedSquares(self, nums: List[int]) -> List[int]:
+        arr = [0]*len(nums)
+        l,r = 0,len(nums)-1
+        pos = r
+        while l<=r:
+            if abs(nums[l])>abs(nums[r]):
+                arr[pos] = nums[l]**2
+                l+=1
+            else:
+                arr[pos] = nums[r]**2
+                r-=1
+            pos-=1
+        return arr

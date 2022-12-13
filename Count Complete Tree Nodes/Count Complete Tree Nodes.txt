@@ -1,0 +1,29 @@
+# Solution Roval T:O(LogN) S:O(logN)
+# 19-08-2022
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def countNodes(self, root: Optional[TreeNode]) -> int:
+        if not root:
+            return 0
+
+        levell = 1
+        node = root
+        while node.left:
+            levell+=1
+            node = node.left
+
+        levelr = 1
+        node = root
+        while node.right:
+            levelr+=1
+            node = node.right
+
+        if levell == levelr:
+            return pow(2,levell)-1
+        return 1+self.countNodes(root.left)+self.countNodes(root.right)

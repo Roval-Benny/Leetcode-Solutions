@@ -1,0 +1,22 @@
+# Solution Roval T:O(1) S:O(1)
+# 07-11-2022
+
+#6 35
+class Solution:
+    def maximum69Number (self, num: int) -> int:
+        thousand = num//1000
+        num%=1000
+        hundred = num // 100
+        num%=100
+        ten = num // 10
+        num%=10
+        
+        if thousand == 6:
+            thousand = 9
+        elif hundred == 6:
+            hundred = 9
+        elif ten == 6:
+            ten = 9
+        else:
+            num = 9
+        return thousand*1000+hundred*100+ten*10+num

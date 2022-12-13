@@ -1,0 +1,52 @@
+# T:O(N) S:O(N)
+class Solution:
+    def addTwoNumbers(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:
+        rem = 0
+        head = ListNode(0)
+        tmp = head
+        while l1 or l2 or rem:
+            add = 0
+            if l1:
+                add = l1.val
+                l1 = l1.next
+            if l2:
+                add+= l2.val
+                l2 = l2.next
+            add+=rem
+            node = ListNode(add%10)
+            rem = add//10
+            tmp.next = node
+            tmp = tmp.next
+        return head.next
+
+# T:O(N) S:O(N)
+# N - size of summed linked list
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def numberGen(self,node):
+        mult = 1
+        num = 0
+        while(node):
+            num+= (node.val*mult)
+            mult*=10
+            node = node.next
+        return num
+    
+    def sumGen(self,num):
+        head = ListNode(-1)
+        t=head
+        while(num>0):
+            t.next = ListNode(num%10)
+            num = num//10
+            t = t.next
+        return head.next
+    
+    def addTwoNumbers(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:
+        sum = self.numberGen(l1)+self.numberGen(l2)
+        if sum==0:
+            return ListNode(0)
+        return self.sumGen(sum)

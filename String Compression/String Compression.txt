@@ -1,0 +1,20 @@
+#Time O(N) Space O(1)
+
+class Solution:
+    def compress(self, chars: List[str]) -> int:
+        chars.append('~')
+        s,count,pos,index = chars[0],1,0,1
+        while(index<len(chars)):
+            if s==chars[index]:
+                count+=1
+            else:
+                chars[pos] = s
+                pos+=1
+                if count>1:
+                    for i in str(count):
+                        chars[pos] = i
+                        pos+=1
+                count = 1
+                s = chars[index]
+            index+=1
+        return pos

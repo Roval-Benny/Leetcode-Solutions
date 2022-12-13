@@ -1,0 +1,21 @@
+# Solution Roval T:O(NlogN) S:O(N)
+# 15-09-2022
+
+class Solution:
+    def findOriginalArray(self, changed: List[int]) -> List[int]:
+        if len(changed)%2:
+            return []
+        counter = collections.Counter(changed)
+        keys = sorted(counter.keys())
+        ans = []
+        for i in keys:
+            if i==0:
+                ans+= [0]*(counter[i]//2)
+                counter[i]-=counter[i]//2
+                continue
+            if counter[i]==0:
+                continue
+            if counter[i*2]>=counter[i]:
+                ans+=[i]*counter[i]
+                counter[i*2]-=counter[i]
+        return ans if len(ans)==(len(changed)//2) else []

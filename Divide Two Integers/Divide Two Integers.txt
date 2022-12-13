@@ -1,0 +1,39 @@
+#T:O(logN) S:O(1) without using addition tcount
+class Solution:
+    def divide(self, dividend: int, divisor: int) -> int:
+        d = abs(dividend)
+        dv = abs(divisor)
+        output = 0
+        while d>=dv:
+            tmp = dv
+            mult = 1
+            while d>=tmp:
+                d-=tmp
+                output+=mult
+                mult+=mult
+                tmp+=tmp
+                
+        if (dividend<0 and divisor>=0 ) or(dividend>=0 and divisor<0):
+            output = -output
+        return min(2147483647,max(-2147483648,output))
+            
+
+#Solution 2 T:O(logN) S:O(1)
+class Solution:
+    def divide(self, dividend: int, divisor: int) -> int:
+        count = 0
+        d = abs(dividend)
+        dv = abs(divisor)
+        while(d>=dv):
+            tcount = 1
+            counter = 0
+            tdv = dv
+            while(d>=tdv):
+                d-=tdv
+                counter+=tcount
+                tcount+=tcount
+                tdv+=tdv
+            count+=counter
+        if (dividend>0 and divisor<0) or (dividend<0 and divisor>0):
+            count = -count
+        return max(-2147483648, min(2147483647,count))

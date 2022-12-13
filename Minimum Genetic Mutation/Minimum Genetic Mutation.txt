@@ -1,0 +1,26 @@
+# Solution Roval T:O(len(bank)) S:O(1)
+# 02-11-2022
+
+class Solution:
+    def minMutation(self, start: str, end: str, bank: List[str]) -> int:
+        bankset = set(bank)
+        gene = ['A','C','G','T']
+        queue = [start]
+        count = 0
+        visited = set()
+        while queue:
+            newqueue = []
+            for string in queue:
+                if string == end:
+                    return count
+                if string in visited:
+                    continue
+                visited.add(string)
+                for i in range(8):
+                    for g in gene:
+                        newstring = string[:i]+g+string[i+1:]
+                        if newstring in bankset:
+                            newqueue.append(newstring)
+            count+=1
+            queue = newqueue
+        return -1

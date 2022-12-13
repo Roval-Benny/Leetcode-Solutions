@@ -1,0 +1,37 @@
+# Solution Roval T:O(N^N) S:O(N*N)
+# 05-09-2022
+class Solution:
+    def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
+        candidates.sort()
+        ans = []
+        def create(pos,total,arr):
+            if total==target:
+                ans.append(arr)
+                return 
+            if pos==len(candidates) or total>target:
+                return
+            for i in range(pos,len(candidates)):
+                create(i,total+candidates[i],arr+[candidates[i]])
+            return 
+        create(0,0,[])
+        return ans
+
+# Solution 1 - Roval 
+# 19-07-2022
+# T:O(N^N) S:O(N*N)
+class Solution:
+    def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
+        candidates.sort()
+        ans = []
+        
+        def targetSum(templist,total,arr):
+            if total == target:
+                ans.append(templist)
+                return 
+            for i in range(len(arr)):
+                if total+arr[i] > target:
+                    return
+                targetSum(templist+[arr[i]],total+arr[i],arr[i:])
+        
+        targetSum([],0,candidates)
+        return ans

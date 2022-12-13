@@ -1,0 +1,14 @@
+# Time O(N) S:O(1)
+class Solution:
+    def greatestLetter(self, s: str) -> str:
+        upper = 0
+        small = 0
+        for i in s:
+            if (ord(i)-ord('a'))<0:
+                upper = upper | 1<<(ord(i)-ord('A'))
+            else:
+                small = small | 1<<(ord(i)-ord('a'))
+        result = upper & small
+        if result==0:
+            return ""
+        return chr(64+len(bin(result))-2)

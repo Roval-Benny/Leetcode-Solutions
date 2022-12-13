@@ -1,0 +1,54 @@
+# Solution Roval DP T:O(N*M) S:O(Output + S)
+# 11-09-2022
+
+class Solution:
+    def wordBreak(self, s: str, wordDict: List[str]) -> List[str]:
+        words = defaultdict(list)
+        for i in range(len(s)-1,-1,-1):
+            for word in wordDict:
+                if len(word)<=(len(s)-i) and s[i:i+len(word)] == word:
+                    if i+len(word) == len(s):
+                        words[i].append(word)
+                        continue
+                    for sample in words[i+len(word)]:
+                        words[i].append(word+" "+sample)
+        return words[0]
+
+# Solution Roval DP T:O(N*M) S:O(Output + S)
+# 29-08-2022
+
+from collections import defaultdict
+class Solution:
+    def wordBreak(self, s: str, wordDict: List[str]) -> List[str]:
+        dp = [0]*(len(s)+1)
+        dp[-1] = 1
+        output = defaultdict(list)
+        output[len(dp)-1].append('')
+        for i in range(len(s)-1,-1,-1):
+            for word in wordDict:
+                if i+len(word)<len(dp) and dp[i+len(word)] and s[i:i+len(word)]==word:
+                    dp[i] = dp[i+len(word)]
+                    if i+len(word) == len(s):
+                        output[i].append(word)
+                    else:
+                        for temp in output[i+len(word)]:
+                            output[i].append(word+' '+temp)
+        return output[0]
+
+# Solution Roval Backtracking
+# 29-08-2022
+
+class Solution:
+    def wordBreak(self, s: str, wordDict: List[str]) -> List[str]:
+        wordDict = set(wordDict)
+        s+='$'
+        output = set()
+        def backtracking(pos,ans):
+            if pos==(len(s)-1):
+                output.add(ans[:-1])
+                return
+            for i in range(pos,len(s)):
+                if s[pos:i] in wordDict:
+                    backtracking(i,ans+s[pos:i]+' ')
+        backtracking(0,'')
+        return output

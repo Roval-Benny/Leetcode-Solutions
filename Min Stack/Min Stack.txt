@@ -1,0 +1,81 @@
+# Solution 1 using two stacks T:O(N) S:O(N)
+class MinStack:
+   
+    def __init__(self):
+        self.stack = []
+        self.minStack = []
+
+    def push(self, val: int) -> None:
+        self.stack.append(val)
+        if not self.minStack:
+            self.minStack.append(val)
+        elif self.minStack[-1]>=val:
+            self.minStack.append(val)
+        
+
+    def pop(self) -> None:
+        if self.minStack[-1]==self.stack[-1]:
+            self.stack.pop(-1)
+            self.minStack.pop(-1)
+        else:
+            self.stack.pop(-1)
+
+    def top(self) -> int:
+        return self.stack[-1]
+
+    def getMin(self) -> int:
+        return self.minStack[-1]
+
+
+# Your MinStack object will be instantiated and called as such:
+# obj = MinStack()
+# obj.push(val)
+# obj.pop()
+# param_3 = obj.top()
+# param_4 = obj.getMin()
+
+
+# Solution 2 using tree 
+
+class Node:
+    def __init__(self,data,min_val):
+        self.data = data
+        self.min = min_val
+        self.next = None
+class MinStack:
+
+    def __init__(self):
+        self.topNode = None
+
+    def push(self, val: int) -> None:
+        if self.topNode==None:
+            obj = Node(val,val)
+            self.topNode = obj
+        else:
+            min_v = self.topNode.min if self.topNode.min<val else val
+            obj = Node(val,min_v)
+            obj.next = self.topNode
+            self.topNode=obj
+            
+    def pop(self) -> None:
+        if self.topNode:
+            self.topNode = self.topNode.next
+
+    def top(self) -> int:
+        if self.topNode:
+            return self.topNode.data
+        return -1
+
+    def getMin(self) -> int:
+        if self.topNode:
+            return self.topNode.min
+        return -1
+
+
+# Your MinStack object will be instantiated and called as such:
+# obj = MinStack()
+# obj.push(val)
+# obj.pop()
+# param_3 = obj.top()
+# param_4 = obj.getMin()
+

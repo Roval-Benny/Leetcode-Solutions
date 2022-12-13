@@ -1,0 +1,15 @@
+# Solution Roval T:O(N + KlgK) S:O(K)
+# 25-10-2022
+
+from heapq import heapify,heappop
+class Solution:
+    def topKFrequent(self, nums: List[int], k: int) -> List[int]:
+        counter = Counter(nums)
+        heap = []
+        for c in counter:
+            heap.append((-counter[c],c))
+        heapify(heap)
+        ans = []
+        for i in range(k):
+            ans.append(heappop(heap)[1])
+        return ans

@@ -1,0 +1,22 @@
+# Solution Roval T:O(N+Q) S:O(Q)
+# 21-09-2022
+
+class Solution:
+    def sumEvenAfterQueries(self, nums: List[int], queries: List[List[int]]) -> List[int]:
+        total = 0
+        evens = set()
+        for index,val in enumerate(nums):
+            if not val%2:
+                evens.add(index)
+                total+=val
+        ans = []
+        for val,index in queries:
+            if index in evens:
+                total-=nums[index]
+                evens.remove(index)
+            nums[index]+=val
+            if not nums[index]%2:
+                total+=nums[index]
+                evens.add(index)
+            ans.append(total)
+        return ans

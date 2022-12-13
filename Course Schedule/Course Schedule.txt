@@ -1,0 +1,67 @@
+# Solution Roval T:O(V+E) S:O(V+E)
+# 21-09-2022
+
+class Solution:
+    def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
+        graph = defaultdict(list)
+        for e1,e2 in prerequisites:
+            graph[e1].append(e2)
+        sort = set()
+        visited = set()
+        for i in range(numCourses):
+            if i not in graph:
+                sort.add(i)
+        def dfs(node):
+            if node in sort:
+                return True
+            if node in visited:
+                return False
+            visited.add(node)
+            for i in graph[node]:
+                if dfs(i):
+                    continue
+                return False
+            sort.add(node)
+            return True
+        for i in range(numCourses):
+            dfs(i)
+        return len(sort)==numCourses
+
+# Solution 1 - Roval T:O(D) S:O(D) D - depth of the tree
+class Solution:
+    def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
+        if numCourses == 1 and not prerequisites:
+            return True
+        
+        if numCourses==1:
+            return False
+        
+        graph = {}
+        nodes = []
+        nodes_visited = set()
+        for i in prerequisites:
+            if i[0] in graph:
+                graph[i[0]].append(i[1])
+            else:
+                graph[i[0]] = [i[1]]
+                nodes.append(i[0])
+        visited = [False]*numCourses
+        
+        def checker(node):
+            if visited[node]:
+                return False
+            if node not in graph or node in nodes_visited:
+                return True
+            visited[node] = True 
+            nodes_visited.add(node)
+            for i in graph[node]:
+                if not checker(i):
+                    return False
+            visited[node] = False
+            return True
+                
+        for i in range(len(nodes)):
+            if nodes[i] not in nodes_visited:
+                if not checker(nodes[i]):
+                    return False
+        return True

@@ -1,0 +1,28 @@
+# Solution Roval T:O(N) S:O(1)
+# 22-08-2022
+
+
+# using tortoise method
+class Solution:
+    def findDuplicate(self, nums: List[int]) -> int:
+        slow = 0
+        fast = nums[slow]
+        
+        while slow!=fast:
+            slow = nums[slow]
+            fast = nums[nums[fast]]
+            
+        slow = 0
+        while slow!=nums[fast]:
+            slow = nums[slow]
+            fast = nums[fast]
+        return slow
+
+# using bits
+class Solution:
+    def findDuplicate(self, nums: List[int]) -> int:
+        number = 0
+        for i in nums:
+            if number & (1<<i):
+                return i
+            number = number | (1<<i)

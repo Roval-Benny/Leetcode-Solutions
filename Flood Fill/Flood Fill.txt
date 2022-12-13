@@ -1,0 +1,16 @@
+# T:O(N) S:(N)
+class Solution:
+    def fillAlgo(self,image,m,n,sr,sc,color,value):
+        if sr<0 or sr==m or sc<0 or sc==n or image[sr][sc]!=value:
+            return
+        image[sr][sc] = color
+        self.fillAlgo(image,m,n,sr,sc+1,color,value)
+        self.fillAlgo(image,m,n,sr-1,sc,color,value)
+        self.fillAlgo(image,m,n,sr,sc-1,color,value)
+        self.fillAlgo(image,m,n,sr+1,sc,color,value)
+    
+    def floodFill(self, image: List[List[int]], sr: int, sc: int, color: int) -> List[List[int]]:
+        if color==image[sr][sc]:
+            return image
+        self.fillAlgo(image,len(image),len(image[0]),sr,sc,color,image[sr][sc])
+        return image

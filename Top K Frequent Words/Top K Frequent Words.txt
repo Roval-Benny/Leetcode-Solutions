@@ -1,0 +1,61 @@
+# Solution Roval T:O(NlogK) S:O(N)
+# 11-10-2022
+
+from heapq import heapify, heappop
+class Solution:
+    def topKFrequent(self, words: List[str], k: int) -> List[str]:
+        counter = Counter(words)
+        heap = [(-counter[key],key) for key in counter]
+        heapify(heap)
+        ans = []
+        while k:
+            ans.append(heappop(heap)[1])
+            k-=1
+        return ans
+
+# Solution Roval T:(NlogK) S:O(N)
+# 23-08-2022
+
+from collections import Counter
+from heapq import heapify, heappop
+class Solution:
+    def topKFrequent(self, words: List[str], k: int) -> List[str]:
+        counter = Counter(words)
+        heap = []
+        for word in counter:
+            heap.append((-1*counter[word],word))
+        heapify(heap)
+        ans = []
+        while k:
+            ans.append(heappop(heap)[1])
+            k-=1
+        return ans
+
+
+#Solution T:O(NlogK) S:O(N)
+from collections import Counter
+from heapq import heappop,heapify
+class Solution:
+    def topKFrequent(self, words: List[str], k: int) -> List[str]:
+        counter = Counter(words)
+        count = {}
+        for i in counter:
+            if counter[i] not in count:
+                count[counter[i]] = [i]
+            else:
+                count[counter[i]].append(i)
+        heapcount = list(count.keys())
+        heapq._heapify_max(heapcount)
+        output = []
+        while(k>0):
+            v = heapq._heappop_max(heapcount)
+            temp = []
+            for i in count[v]:
+                temp.append(i)
+            heapify(temp)
+            while(len(temp)>0):
+                output.append(heappop(temp))
+                k-=1
+                if k==0:
+                    return output
+        return output

@@ -1,0 +1,42 @@
+#T: O(nlogn) S:O(N)
+from typing import (
+    List,
+)
+from lintcode import (
+    Interval,
+)
+
+"""
+Definition of Interval:
+class Interval(object):
+    def __init__(self, start, end):
+        self.start = start
+        self.end = end
+"""
+
+class Solution:
+    """
+    @param intervals: an array of meeting time intervals
+    @return: the minimum number of conference rooms required
+    """
+    def min_meeting_rooms(self, intervals: List[Interval]) -> int:
+        # Write your code here
+        start = []
+        end = []
+        for i in intervals:
+            start.append(i.start)
+            end.append(i.end)
+        start.sort()
+        end.sort()
+
+        c = m = i = j = 0
+
+        while i<len(start):
+            if start[i]<end[j]:
+                i+=1
+                c+=1
+            else:
+                m = max(m,c)
+                c-=1
+                j+=1
+        return max(c,m)

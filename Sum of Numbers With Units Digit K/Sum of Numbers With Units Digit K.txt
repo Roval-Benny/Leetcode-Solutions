@@ -1,0 +1,15 @@
+# T:O(1) S:O(1)
+class Solution:
+    def minimumNumbers(self, num: int, k: int) -> int:
+        if num==0:
+            return 0
+        if num<k:
+            return -1
+        rem = num%10
+        for i in range(1,11):
+            mult = (k*i)%10
+            if (k*i)>num:
+                return -1
+            if rem==mult:
+                return i
+        return -1

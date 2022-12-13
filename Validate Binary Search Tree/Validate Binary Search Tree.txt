@@ -1,0 +1,38 @@
+# Solution Roval T:O(N) S:O(N)
+# 11-08-2022
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def isValidBST(self, root: Optional[TreeNode]) -> bool:
+        
+        def checker(node,minV,maxV):
+            if not node:
+                return True
+            if minV<node.val<maxV:
+                return checker(node.left,minV,node.val) and checker(node.right,node.val,maxV)
+            return False
+        return checker(root,float('-inf'),float('inf'))
+
+
+# T:O(N) S:O(D) D-depth
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def isValidBST(self, root: Optional[TreeNode],min_val = float('-Inf'),max_val=float('Inf')) -> bool:
+        if not root:
+            return True
+        if root.val <= min_val or root.val >= max_val:
+            return False
+        a = self.isValidBST(root.left,min_val,root.val)
+        b = self.isValidBST(root.right,root.val,max_val)
+        
+        return a and b

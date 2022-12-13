@@ -1,0 +1,133 @@
+# Solution 1 Roval T:O(N) S:O(N)
+class Solution:
+    def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
+        LCA = None
+        def DFS(node,p,q):
+            if not node:
+                return 
+            if node.val ==p.val or node.val == q.val:
+                return node
+            a = DFS(node.left,p,q)
+            b = DFS(node.right,p,q)
+            
+            if a and b:
+                return node
+            return a if a else b
+        return DFS(root,p,q)
+
+
+#T:O(N) S:O(D)
+class Solution:
+    def __init__(self):
+        self.val = None
+        
+    def ancestor(self,node,p,q):
+        if not node:
+            return False
+        result = False
+        if node.val==p:
+            result= True
+        if node.val == q:
+            result = True
+            
+        a = self.ancestor(node.left,p,q)
+        b = self.ancestor(node.right,p,q)
+        if a and b:
+            self.val = node.val
+        if result and (a or b):
+            self.val = node.val
+        return result or a or b
+    def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
+        if not root:
+            return None
+        self.ancestor(root,p.val,q.val)
+        return ListNode(self.val)
+
+
+# T:O(N) S:O(D) D-depth of the tree
+#Solution 1 with extra space
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    
+    def __init__(self):
+        self.output = None
+    def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
+        self.checker(root,p.val,q.val)
+        return TreeNode(self.output)
+    def checker(self,root,p,q):
+        if not root:
+            return [False,False]
+        [p1,q1] = self.checker(root.left,p,q)
+        [p2,q2] = self.checker(root.right,p,q)
+        
+        if((p1 and q2) or (p2 and q1)):
+            self.output = root.val
+            return [True,True]
+        
+        if (p==root.val):
+            if (q1 or q2):
+                self.output = root.val
+                return [True,True]
+            return [True,False]
+        if(q==root.val):
+            if p1 or p2:
+                self.output = root.val
+                return [True,True]
+            return [False,True]
+        return [p1 or p2, q1 or q2]
+
+
+# T:O(N) S:O(D) D-depth
+#Solution 2 with extra space
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def _init_(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def _init_(self):
+        self.nodeSet = set()
+        self.LCA = None
+        
+    def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
+        self.findNode(root,p.val)
+        self.findAncestor(root,q.val)
+        return TreeNode(self.LCA)
+    
+    def findNode(self,node,val):
+        if not node:
+            return False
+        if node.val == val:
+            self.nodeSet.add(node.val)
+            return True
+        found = self.findNode(node.left,val)
+        if not found:
+            found = self.findNode(node.right,val)
+        if found:
+            self.nodeSet.add(node.val)
+        return found
+    
+    def findAncestor(self,node,val):
+        if not node:
+            return False
+        if node.val == val and val in self.nodeSet:
+            self.LCA = node.val
+            return True
+        elif node.val == val:
+            return True
+        found = self.findAncestor(node.left,val)
+        if not found and  self.LCA == None:
+            found = self.findAncestor(node.right,val)
+        if found and  self.LCA == None and node.val in self.nodeSet:
+            self.LCA = node.val
+        return found

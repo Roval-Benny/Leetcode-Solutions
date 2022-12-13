@@ -1,0 +1,10 @@
+# Solution Roval T:O(N) S:O(N)
+# 22-09-2022
+
+class Solution:
+    def reverseWords(self, s: str) -> str:
+        string = s.split(' ')
+        ans = ""
+        for ts in string:
+            ans+=ts[::-1]+' '
+        return ans[:-1]

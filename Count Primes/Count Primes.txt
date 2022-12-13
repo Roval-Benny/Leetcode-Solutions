@@ -1,0 +1,61 @@
+# T:O:(N) S:O(N) - Roval
+class Solution:
+    def countPrimes(self, n: int) -> int:
+        if n>3:
+            flag = self.sieveAlgorithm(n)
+            return flag.count(True)+1
+        elif n == 3:
+            return 1
+        else:
+            return 0
+        
+    def sieveAlgorithm(self,num):
+        flag = [True]*(num//2)
+        flag[0]=False
+        
+        prime = 3
+        while(prime<=(num**0.5)):
+            self.setFlag(prime,flag)
+            prime = self.nextPrime((prime//2)+1,flag)
+            
+        return flag
+    
+    def setFlag(self,prime,flag):
+        next = prime**2
+        while(next<len(flag)*2):
+            if next%2 != 0:
+                flag[next//2] = False
+            next+=prime
+        
+    def nextPrime(self,next,flag):
+        while(next<len(flag) and not flag[next]):
+            next+=1
+        return (next*2)+1
+            
+
+# T:O(N) S:O(N) - Royal Faster One
+from functools import reduce
+class Solution:
+    def countPrimes(self, n: int) -> int:
+        if n <= 2:
+            return 0
+        count = 1
+        flags = [True]*(n//2)
+        flags[0] = False
+        prime = 3
+        while prime <= n**0.5:
+            self.crossOf(prime,flags,n)
+            prime = self.nextPrime(prime,flags,n)
+        count = reduce(lambda c,val: c+1 if val else c, flags)
+        return count+1
+    
+    def crossOf(self,prime,flags,n):
+        for i in range(prime*prime,n,prime):
+            if i%2 != 0:
+                flags[i//2] = False
+    
+    def nextPrime(self,prime,flags,n):
+        next = prime+2
+        while next < n and not flags[next//2]:
+            next+=2
+        return next

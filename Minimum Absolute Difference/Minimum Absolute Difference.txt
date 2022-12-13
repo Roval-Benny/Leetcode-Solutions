@@ -1,0 +1,13 @@
+#T:O(NlogN) S:O(N)
+class Solution:
+    def minimumAbsDifference(self, arr: List[int]) -> List[List[int]]:
+        output = []
+        arr.sort()
+        min_dif = 999999999999999999
+        for i in range(1,len(arr)):
+            min_dif = min(min_dif,abs(arr[i-1]-arr[i]))
+        
+        for i in range(1,len(arr)):
+            if abs(arr[i-1]-arr[i]) == min_dif:
+                output.append([arr[i-1],arr[i]])
+        return output

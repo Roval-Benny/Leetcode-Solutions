@@ -1,0 +1,12 @@
+# Solution1 - Roval - T:O(N) S:O(1)
+class Solution:
+    def maxScore(self, cardPoints: List[int], k: int) -> int:
+        score = sum(cardPoints[:k])
+        prev = score
+        offest = -1
+        while k!=0:
+            prev = prev - cardPoints[k-1] + cardPoints[offest]
+            score = max(prev,score)
+            k-=1
+            offest-=1
+        return score

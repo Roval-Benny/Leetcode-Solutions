@@ -1,0 +1,14 @@
+# Solution Roval T:O(N) S:O(N)
+# 04-08-2022
+class Solution:
+    def removeKdigits(self, num: str, k: int) -> str:
+        stack = []
+        for n in num:
+            while stack and stack[-1]>n and k:
+                stack.pop(-1)
+                k-=1
+            stack.append(n)
+        while k:
+            stack.pop(-1)
+            k-=1
+        return ''.join(stack).lstrip("0") or "0"

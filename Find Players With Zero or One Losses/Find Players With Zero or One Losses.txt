@@ -1,0 +1,20 @@
+# Solution Roval T:O(N) S:O(N)
+# 30-11-2022
+
+class Solution:
+    def findWinners(self, matches: List[List[int]]) -> List[List[int]]:
+        maxv = 0
+        for i,j in matches:
+            maxv = max(i,j,maxv)
+        bucket = [-1]*(maxv+1)
+        for win,los in matches:
+            bucket[win] = max(0,bucket[win])
+            bucket[los] = max(1,bucket[los]+1)
+            
+        output = [[],[]]
+        for index,val in enumerate(bucket):
+            if val == 0:
+                output[0].append(index)
+            elif val == 1:
+                output[1].append(index)
+        return output

@@ -1,0 +1,23 @@
+#Solution Roval T:O(LogN) S:O(1)
+class Solution:
+    def myPow(self, x: float, n: int) -> float:
+        if n==0:
+            return 1
+        if x==0:
+            return 0
+        temp = n
+        n = abs(n)
+        ans = 1
+        while n:
+            power,number = 1,x
+            while power*2 <=n:
+                number*=number
+                power*=2
+            ans*=number
+            n-=power
+        return ans if temp>0 else 1/ans
+
+#Solution Roval  T:O(N) S:O(1)
+class Solution:
+    def myPow(self, x: float, n: int) -> float:
+        return float("{:.5f}".format(x**n))

@@ -1,0 +1,52 @@
+# Solution Roval T:O(NlogN) S:O(N)
+# 13-10-2022
+
+from heapq import heapify,heappop,heappush
+class Solution:
+    def reorganizeString(self, s: str) -> str:
+        counter = Counter(s)
+        heap = [ [-counter[key],key] for key in counter]
+        heapify(heap)
+        ans = ""
+        temp = heappop(heap)
+        ans+=temp[1]
+        while heap:
+            t = heappop(heap)
+            temp[0]+=1
+            if temp[0]<0:
+                heappush(heap,temp)
+            ans+=t[1]
+            temp = t
+        return ans if len(ans)==len(s) else ""
+
+# Solution Roval T:O(NlogN) S:O(N)
+# 29-08-2022
+	
+from heapq import heapify,heappop,heappush
+from collections import Counter
+class Solution:
+    def reorganizeString(self, s: str) -> str:
+        counter = Counter(s)
+        heap = []
+        for i in counter:
+            heap.append((-1*counter[i],i))
+        heapify(heap)
+        ans = ' '
+        while heap:
+            first = None
+            second = None
+            if heap:
+                first = heappop(heap)
+            if heap:
+                second = heappop(heap)
+            if first and ans[-1]!=first[1]:
+                ans = ans + first[1]
+                first = (first[0]+1,first[1])
+                if first[0]:
+                    heappush(heap,first)
+                if second:
+                    ans+= second[1]
+                    second = (second[0]+1,second[1])
+                    if second[0]:
+                        heappush(heap,second)
+        return ans[1::] if (len(ans)-1)==len(s) else ""

@@ -1,0 +1,35 @@
+# Solution Leetcode T:O(N) S:O(1) C#
+class Solution {
+public:
+    string makeGood(string s) {
+        // Initialize 'end = 0' since the good string is empty.
+        int end = 0;
+        for (int cur = 0; cur < s.size(); ++cur) {
+            // If s[cur] makes a pair with the last character s[end - 1] in good string,
+            // remove s[end - 1] by decrementing 'end' by 1. 
+            // Otherwise, add s[cur] to the good string by overwritting s[end] by s[cur].
+            if (end > 0 && abs(s[cur] - s[end - 1]) == 32)
+                end--;
+            else {
+                s[end] = s[cur];
+                end++;
+            }
+        }
+        
+        // Once the iteration ends, the string before 'end' is the good string.
+        return s.substr(0, end);  
+    }
+};
+
+# Solution Roval T:O(N) S:O(N)
+# 08-11-2022
+
+class Solution:
+    def makeGood(self, s: str) -> str:
+        stack = [s[0]]
+        for i in range(1,len(s)):
+            if stack and stack[-1].lower() == s[i].lower() and abs(ord(s[i])-ord(stack[-1])) == 32:
+                stack.pop(-1)
+            else:
+                stack.append(s[i])
+        return ''.join(stack)

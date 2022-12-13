@@ -1,0 +1,15 @@
+# Solution Roval T:O(N) S:O(1)
+# 22-08-2022
+
+class Solution:
+    def lengthOfLongestSubstring(self, s: str) -> int:
+        maxL = start = 0
+        chars = {}
+        for index,ch in enumerate(s):
+            if ch not in chars or chars[ch]<start:
+                chars[ch] = index
+            else:
+                maxL = max(maxL,index-start)
+                start = chars[ch]+1
+                chars[ch] = index
+        return max(maxL,len(s)-start)

@@ -1,0 +1,34 @@
+# Solution Roval T:O(N) S:O(D)
+# 14-09-2022
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def pseudoPalindromicPaths (self, root: Optional[TreeNode]) -> int:
+        def palindrome(counter):
+            count = 0
+            for c in counter:
+                if counter[c]%2:
+                    count+=1
+            return count<=1
+        ans = 0
+        def dfs(node,counter):
+            nonlocal ans
+            if not node:
+                return
+            counter[node.val]+=1
+            if not node.right and not node.left:
+                if palindrome(counter):
+                    ans+=1
+                counter[node.val]-=1
+                return 
+            dfs(node.left,counter)
+            dfs(node.right,counter)
+            counter[node.val]-=1
+            return 
+        dfs(root,defaultdict(int))
+        return ans

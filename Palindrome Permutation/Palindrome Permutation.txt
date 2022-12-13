@@ -1,0 +1,19 @@
+# Time Complexity O(N) Space O(1)
+
+import math
+def palindromePermutation(string):
+    s = 0
+    string = string.lower()
+    for i in string:
+        if i==' ':
+            continue
+        bit = ord(i)-ord('a')
+        s = s ^ (1<<bit)
+    if s==0:
+        return True
+    elif math.log(s,2)-round(math.log(s,2))==0:
+        return True
+    return False
+
+string = "malayalam"
+print(palindromePermutation(string))

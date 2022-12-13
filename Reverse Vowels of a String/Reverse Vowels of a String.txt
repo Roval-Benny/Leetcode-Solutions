@@ -1,0 +1,16 @@
+# Solution Roval T:O(N) S:O(N)
+# 04-11-2022
+
+class Solution:
+    def reverseVowels(self, s: str) -> str:
+        vowels = set(['A','E','I','O','U','a','e','i','o','u'])
+        string = list(s)
+        indices = []
+        vlist = []
+        for index,val in enumerate(string):
+            if val in vowels:
+                indices.append(index)
+                vlist.append(val)
+        for index in indices:
+            string[index] = vlist.pop(-1)
+        return ''.join(string)

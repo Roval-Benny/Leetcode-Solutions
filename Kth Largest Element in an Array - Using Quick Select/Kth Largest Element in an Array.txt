@@ -1,0 +1,30 @@
+# Solution T:O(N) S:O(1) S - 1 in technically only
+class Solution:
+    def findKthLargest(self, nums: List[int], k: int) -> int:
+        arr = [0]*(20001)
+        for i in nums:
+            arr[10000+i]+=1
+        i = 20000
+        while k>0:
+            k-=arr[i]
+            i-=1
+        i+=1
+        return i-10000
+
+#Solution using Quick Select: T:O(N) S:O(1)
+# Worst case of an quick select is O(N**2)
+class Solution:
+    def quickselect(self,left,right,pos,nums):
+        pivot,j = nums[right],left
+        for i in range(left,right):
+            if pivot>=nums[i]:
+                nums[j],nums[i] = nums[i],nums[j]
+                j+=1
+        nums[j],nums[right] = nums[right],nums[j]
+        if j>pos: return self.quickselect(left,j-1,pos,nums)
+        elif j<pos: return self.quickselect(j+1,right,pos,nums)
+        else: return nums[j]
+        
+    def findKthLargest(self, nums: List[int], k: int) -> int:
+        pos = len(nums)-k
+        return self.quickselect(0,len(nums)-1,pos,nums)

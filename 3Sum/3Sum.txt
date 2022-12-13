@@ -1,0 +1,56 @@
+# Solution Roval T:O(N**2) S:O(1)
+# 02-09-2022
+
+class Solution:
+    def threeSum(self, nums: List[int]) -> List[List[int]]:
+        nums.sort()
+        ans = set()
+        for i in range(len(nums)-2):
+            left = i+1
+            right = len(nums)-1
+            while left<right:
+                total = nums[i]+nums[left]+nums[right]
+                if total==0:
+                    ans.add((nums[i],nums[left],nums[right]))
+                    left+=1
+                elif total>0:
+                    right-=1
+                else:
+                    left+=1
+        return ans
+
+# Solution 1 T:O(N**2) S:O(1) Faster
+class Solution:
+    def threeSum(self, nums: List[int]) -> List[List[int]]:
+        nums.sort()
+        output = []
+        for i in range(0,len(nums)):
+            if i>0 and nums[i-1]==nums[i]:
+                continue
+            b,c = i+1, len(nums)-1
+            while b<c:
+                three = nums[i] + nums[b] + nums[c]
+                if three == 0:
+                    output.append([nums[i],nums[b],nums[c]])
+                    b+=1
+                    while nums[b] == nums[b-1] and b<c:
+                        b+=1
+                elif three>0:
+                    c-=1
+                else:
+                    b+=1
+        return output
+
+# Solution 2 T:O(N**2) S:O(N)
+class Solution:
+    def threeSum(self, nums: List[int]) -> List[List[int]]:
+        visited = set()
+        output = set()
+        nums.sort()
+        visited.add(nums[0])
+        for i in range(1,len(nums)-1):
+            for j in range(i+1,len(nums)):
+                if (nums[i] + nums[j])*-1 in visited:
+                    output.add((nums[i],nums[j],(nums[i]+nums[j])*-1))
+            visited.add(nums[i])
+        return output

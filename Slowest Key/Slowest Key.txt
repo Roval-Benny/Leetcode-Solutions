@@ -1,0 +1,15 @@
+# Solution Roval T:O(N) S:O(1)
+# 04-11-2022
+
+class Solution:
+    def slowestKey(self, releaseTimes: List[int], keysPressed: str) -> str:
+        output = keysPressed[0]
+        duration = releaseTimes[0]
+        for index,val in enumerate(releaseTimes):
+            tempD = val - releaseTimes[index-1]
+            if tempD==duration and ord(output)<ord(keysPressed[index]):
+                output = keysPressed[index]
+            elif tempD>duration:
+                duration = tempD
+                output = keysPressed[index]
+        return output

@@ -1,0 +1,44 @@
+# Solution Roval T:O(E*V) S:O(E)
+# 18-09-2022
+class Solution:
+    def findCheapestPrice(self, n: int, flights: List[List[int]], src: int, dst: int, k: int) -> int:
+        prices = [float('inf')]*n
+        prices[src] = 0
+        for i in range(k+1):
+            temp = prices.copy()
+            for s,d,p in flights:
+                if prices[s] == float('inf'):
+                    continue
+                if prices[s]+p <=temp[d]:
+                    temp[d] = prices[s] + p
+            prices = temp
+        return prices[dst] if prices[dst]!=float('inf') else -1
+
+# Solution Roval T:O(N!) S:O(N) 
+# 18-09-2022
+# Wrong Answer
+
+class Solution:
+    def findCheapestPrice(self, n: int, flights: List[List[int]], src: int, dst: int, k: int) -> int:
+        graph = collections.defaultdict(list)
+        for flight in flights:
+            graph[flight[0]].append((flight[1],flight[2]))
+        
+        memo = {}
+        def dfs(node,prev,pos,visited):
+            if (node,pos) in memo:
+                return memo[(node,pos)]
+            if pos==k:
+                return prev if node==dst else float('inf')
+            if node==dst:
+                return prev
+            if node in visited:
+                return float('inf')
+            visited.add(node)
+            memo[(node,pos)] = float('inf')
+            for i,j in graph[node]:
+                memo[(node,pos)] = min(memo[(node,pos)],prev+dfs(i,j,pos+1,visited))
+            visited.remove(node)
+            return memo[(node,pos)]
+        ans = dfs(src,0,-1,set())
+        return ans if ans!=float('inf') else -1

@@ -1,0 +1,21 @@
+# Solution Roval T:O(N^2)
+# 18-10-2022
+
+class Solution:
+    def countAndSay(self, n: int) -> str:
+        def backtrack(N):
+            if N==1:
+                return "1"
+            ans = self.countAndSay(N-1)
+            ans+='/'
+            count = j = 1
+            result = ""
+            while j<len(ans):
+                if ans[j]!=ans[j-1]:
+                    result+=str(count)+str(ans[j-1])
+                    count=1
+                else:
+                    count+=1
+                j+=1
+            return result
+        return backtrack(n)

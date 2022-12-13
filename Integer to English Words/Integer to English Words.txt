@@ -1,0 +1,78 @@
+# Solution Roval T:O(logN) S:O(logN)
+# 11-08-2022
+class Solution:
+    def numberToWords(self, num: int) -> str:
+        if num==0:
+            return 'Zero'
+        def number2Str(number):
+            toNinteen = ['','One ','Two ','Three ','Four ','Five ','Six ','Seven ','Eight ','Nine ','Ten ','Eleven ','Twelve ','Thirteen ','Fourteen ','Fifteen ','Sixteen ','Seventeen ','Eighteen ','Nineteen ']
+            tens = ['','','Twenty ','Thirty ','Forty ','Fifty ','Sixty ','Seventy ','Eighty ','Ninety ']
+            ans = ''
+            if number//100:
+                a = number//100
+                ans+=toNinteen[a]+'Hundred '
+                number%=100
+            if 1<=number<=19:
+                ans+=toNinteen[number]
+            else:
+                ans+=tens[number//10]
+                number%=10
+                ans+=toNinteen[number]
+            return ans
+        result =''
+        billion = num//(10**9)
+        num%=(10**9)
+        million = num//(10**6)
+        num%=(10**6)
+        thousand = num//(10**3)
+        num%=(10**3)
+        if billion:
+            result+=number2Str(billion)+'Billion '
+        if million:
+            result+=number2Str(million)+'Million '
+        if thousand:
+            result+=number2Str(thousand)+'Thousand '
+        if num:
+            result+=number2Str(num)
+        return result[:-1]
+
+#T:O(N) S:O(N)
+class Solution:
+            
+    def numberToWords(self, num: int) -> str:
+        if num==0:
+            return 'Zero'
+        toNinteen = ['','One ','Two ','Three ','Four ','Five ','Six ','Seven ','Eight ','Nine ','Ten ','Eleven ','Twelve ','Thirteen ','Fourteen ','Fifteen ','Sixteen ','Seventeen ','Eighteen ','Nineteen ']
+        tens = ['','','Twenty ','Thirty ','Forty ','Fifty ','Sixty ','Seventy ','Eighty ','Ninety ']
+        places = ['Billion ','Million ', 'Thousand ','']
+        
+        def creater(number):
+            result = ''
+            condition = False
+            while(number>0):
+                temp = number%100
+                if condition:
+                    result = toNinteen[temp]+ 'Hundred '+ result
+                elif temp<20:
+                    result = toNinteen[temp]
+                else:
+                    result = tens[temp//10] +toNinteen[temp%10]
+                condition = True
+                number = number//100
+            return result
+        
+        num = str(num)
+        n = len(num)
+        if n%3!=0:
+            num = '0'*(3-n%3)+num
+        output = ''
+        n = len(num)
+        while (n-3)>=0:
+            sample = creater(int(num[n-3:n]))
+            if len(sample) == 0:
+                places.pop(-1)
+            else:
+                output = sample  + places.pop(-1) + output
+            n-=3
+        return output[:-1]
+                

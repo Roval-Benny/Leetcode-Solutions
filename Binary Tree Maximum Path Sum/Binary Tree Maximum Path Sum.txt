@@ -1,0 +1,47 @@
+# Solution Roval T:O(N) S:O(D)
+# 12-09-2022
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def maxPathSum(self, root: Optional[TreeNode]) -> int:
+        ans = float('-inf')
+        def dfs(node):
+            nonlocal ans
+            if not node:
+                return 0
+            left = dfs(node.left)
+            right = dfs(node.right)
+            result = max(node.val,node.val+left,node.val+right)
+            ans = max(ans,result,node.val+left+right)
+            return result
+        dfs(root)
+        return ans
+
+# Solution Roval T:O(N) S:O(N)
+# 16-08-2022
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def __init__(self):
+        self.max = float('-inf')
+    def maxPathSum(self, root: Optional[TreeNode]) -> int:
+        
+        def finder(node):
+            if not node:
+                return float('-inf')
+            left = finder(node.left)
+            right = finder(node.right)
+            self.max = max(self.max,node.val+left+right,right,left,node.val,node.val+left,node.val+right)
+            return max(left+node.val, node.val+right,node.val)
+        finder(root)
+        return self.max

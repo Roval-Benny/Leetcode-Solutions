@@ -1,0 +1,60 @@
+# Solution Roval T:O(N) S:O(1)
+# 26-09-2022
+
+class Solution:
+    def equationsPossible(self, equations: List[str]) -> bool:
+        noequals = []
+        parent = defaultdict(str)
+        
+        def parentFinder(node):
+            if not parent[node] or node==parent[node]:
+                return node
+            return parentFinder(parent[node])
+        
+        for eq in equations:
+            if eq[1]=='!':
+                noequals.append((eq[0],eq[-1]))
+                continue
+            aP = parentFinder(eq[0])
+            bP = parentFinder(eq[-1])
+            parent[bP] =  aP
+        
+        for e1,e2 in noequals:
+            if parentFinder(e1)==parentFinder(e2):
+                return False
+        return True
+
+# Solution Roval T:O(NM) S:O(NM) dfs
+# 26-09-2022
+
+class Solution:
+    def equationsPossible(self, equations: List[str]) -> bool:
+        graph = defaultdict(list)
+        noequal = []
+        for eq in equations:
+            if eq[1]=='!':
+                noequal.append((eq[0],eq[-1]))
+                if eq[0]==eq[-1]:
+                    return False
+                continue
+            graph[eq[0]].append(eq[-1])
+            graph[eq[-1]].append(eq[0])
+        visited = set()
+        def dfs(node,eq,parent):
+            if node in visited:
+                return False
+            visited.add(node)
+            for eqs in graph[node]:
+                if parent == eqs:
+                    continue
+                if eqs==eq:
+                    return True
+                if dfs(eqs,eq,node):
+                    return True
+            visited.remove(node)
+            return False
+            
+        for e1,e2 in noequal:
+            if e1 in graph and dfs(e1,e2,e1):
+                return False
+        return True

@@ -1,0 +1,32 @@
+# Solution Roval T:O(V*E) S:O(V*E)
+# 17-08-2022
+
+class Solution:
+    def accountsMerge(self, accounts: List[List[str]]) -> List[List[str]]:
+        emailDict = {}
+        parent = [-1]*(len(accounts))
+        
+        def unionFinder(x):
+            while parent[x]!=-1:
+                x = parent[x]
+            return x
+        for i in range(len(accounts)):
+            for j in range(1,len(accounts[i])):
+                if accounts[i][j] in emailDict and emailDict[accounts[i][j]] != i:
+                    p1 = unionFinder(emailDict[accounts[i][j]])
+                    p2 = unionFinder(i)
+                    if p1!=p2:
+                        parent[p2] = p1
+                else:
+                    emailDict[accounts[i][j]] = i
+
+        ans = [[] for _ in range(len(accounts))]
+        for email in emailDict:
+            p = unionFinder(emailDict[email])
+            ans[p].append(email)
+        output =[]
+        for index,emails in enumerate(ans):
+            if emails:
+                name = accounts[index][0]
+                output.append([name]+sorted(emails))
+        return output

@@ -1,0 +1,41 @@
+# T:O(V+E) V-vertices E-Edges S:O(N)
+
+from queue import Queue
+class Node:
+    def __init__(self,val):
+        self.name = val;
+        self.children = []
+
+class Solution:
+    def __init__(self):
+        self.graph = []
+        self.visited = []
+    
+    def validPath(self, n: int, edges: List[List[int]], source: int, destination: int) -> bool:
+        if n==1:
+            return True
+        self.insert(edges,n)
+        queue = Queue(maxsize=0)
+        queue.put(source)
+        self.visited[source] = True
+        while(not queue.empty()):
+            s = queue.get()
+            for index in self.graph[s].children:
+                if index==destination:
+                    return True
+                if self.visited[index]==False:
+                    queue.put(index)
+                    self.visited[index] = True
+        return False
+    
+    def insertion(self,i,j):
+        if not self.graph[i]:
+            self.graph[i] = Node(i)
+        self.graph[i].children.append(j)
+    
+    def insert(self,edges,n):
+        self.graph = [None]*n
+        self.visited = [False]*n
+        for i,j in edges:
+            self.insertion(i,j)
+            self.insertion(j,i)

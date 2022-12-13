@@ -1,0 +1,53 @@
+# Solution Roval T:O(NlogN) S:O(1) Faster
+# 06-09-2022
+
+class Solution:
+    def threeSumClosest(self, nums: List[int], target: int) -> int:
+        nums.sort()
+        closest = float('inf')
+        left = 0
+        right = len(nums)-1
+        while left<right:
+            tl = left+1
+            tr = right-1
+            current = float('inf')
+            while tl<=tr:
+                mid = (tl+tr)//2
+                total = nums[mid]+nums[left]+nums[right]
+                if abs(total-target)<abs(current-target):
+                    current = total
+                if total==target:
+                    return target
+                elif total>target:
+                    tr = mid-1
+                else:
+                    tl = mid+1
+            if abs(target-current)<abs(closest-target):
+                    closest = current
+            if current<target:
+                left+=1
+            else:
+                right-=1
+        return closest
+
+# Solution Roval T:O(N^2) S:O(1)
+# 05-09-2022
+
+class Solution:
+    def threeSumClosest(self, nums: List[int], target: int) -> int:
+        nums.sort()
+        closest = float('inf')
+        for i in range(1,len(nums)):
+            left = i
+            right = len(nums)-1
+            while left<right:
+                temp = nums[i-1]+nums[left]+nums[right]
+                if temp == target:
+                    return target
+                elif temp<target:
+                    left+=1
+                else:
+                    right-=1
+                if abs(target-temp)<abs(target-closest):
+                    closest = temp
+        return closest

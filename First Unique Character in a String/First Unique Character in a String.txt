@@ -1,0 +1,9 @@
+# T:O(N) S:O(1)
+class Solution:
+    def firstUniqChar(self, s: str) -> int:
+        counter = collections.Counter(s)
+        
+        for index,value in enumerate(s):
+            if counter[value] == 1:
+                return index
+        return -1

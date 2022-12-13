@@ -1,0 +1,22 @@
+# Solution Roval T:O(N^2) S:O(N^2)
+# 26-08-2022
+
+class Solution:
+    def longestPalindromeSubseq(self, s: str) -> int:
+        
+        memo = {}
+        
+        def LPS(l,r):
+            if (l,r) in memo:
+                return memo[(l,r)]
+            if l>r:
+                return 0
+            if l==r:
+                return 1
+            if s[l]==s[r]:
+                memo[(l,r)] = 2 + LPS(l+1,r-1)
+                return memo[(l,r)]
+            memo[(l,r)] =  max(LPS(l,r-1),LPS(l+1,r))
+            return memo[(l,r)]
+        
+        return LPS(0,len(s)-1)

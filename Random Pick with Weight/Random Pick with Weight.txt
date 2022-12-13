@@ -1,0 +1,27 @@
+# Solution Roval T:O(logN) S:O(N)
+import random
+class Solution:
+
+    def __init__(self, w: List[int]):
+        self.total = [w[0]]
+        for i in w[1:]:
+            self.total.append(self.total[-1]+i)
+        
+
+    def pickIndex(self) -> int:
+        number = self.total[-1]*random.random()
+        return self.binary(0,len(self.total)-1,number)
+    
+    def binary(self,l,r,number):
+        while l<r:
+            mid = (l+r)//2
+            if self.total[mid]<number:
+                l = mid+1
+            else:
+                r = mid
+        return l
+
+
+# Your Solution object will be instantiated and called as such:
+# obj = Solution(w)
+# param_1 = obj.pickIndex()

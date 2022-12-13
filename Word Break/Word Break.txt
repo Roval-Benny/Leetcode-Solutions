@@ -1,0 +1,60 @@
+# Solution Roval T:O(N*K) S:O(N) K - length of wordDict
+# 12-08-2022
+class Solution:
+    def wordBreak(self, s: str, wordDict: List[str]) -> bool:
+        
+        dp = [False]*(len(s)+1)
+        dp[-1] = True
+        for i in range(len(s)-1,-1,-1):
+            for j in wordDict:
+                if len(s[i:]) >= len(j) and s[i:i+len(j)] == j:
+                    dp[i] = dp[i] or dp[i+len(j)]
+        return dp[0]
+
+# Solution Roval T:O(N^2) S:O(N)
+# 12-08-2022
+class Solution:
+    def wordBreak(self, s: str, wordDict: List[str]) -> bool:
+        
+        dp = [False]*(len(s)+1)
+        dp[-1] = True
+        wordDict = set(wordDict)
+        for i in range(len(s)-1,-1,-1):
+            for j in range(i,len(s)):
+                if s[i:j+1] in wordDict:
+                    dp[i] = dp[i] or dp[i+len(s[i:j+1])]
+        return dp[0]
+
+
+# Solution 1 Roval T:O(?) S:O(?)
+class Solution:
+    def wordBreak(self, s: str, wordDict: List[str]) -> bool:
+        words = set(wordDict)
+        memo = set()
+        
+        def backtrack(pos):
+            if pos == len(s):
+                return True
+            for i in range(pos,len(s)):
+                if  (pos,i+1) not in memo and s[pos:i+1] in words and backtrack(i+1):
+                    return True
+                memo.add((pos,i+1))
+            return False
+        return backtrack(0)
+
+
+# Solution 1 Roval T:O(?) S:O(?)
+class Solution:
+    def wordBreak(self, s: str, wordDict: List[str]) -> bool:
+        words = set(wordDict)
+        memo = set()
+        
+        def backtrack(pos):
+            if pos == len(s):
+                return True
+            for i in range(pos,len(s)):
+                if  (pos,i+1) not in memo and s[pos:i+1] in words and backtrack(i+1):
+                    return True
+                memo.add((pos,i+1))
+            return False
+        return backtrack(0)

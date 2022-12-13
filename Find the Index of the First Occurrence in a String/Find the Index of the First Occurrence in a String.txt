@@ -1,0 +1,15 @@
+# Solution Roval T:O(NM) S:O(1)
+# 12-10-2022
+
+class Solution:
+    def strStr(self, haystack: str, needle: str) -> int:
+        for idx,val in enumerate(haystack):
+            if val==needle[0]:
+                count = 0
+                for index,value in enumerate(needle):
+                    if idx+index==len(haystack) or haystack[idx+index]!=value:
+                        break
+                    count+=1
+                if count==len(needle):
+                    return idx
+        return -1

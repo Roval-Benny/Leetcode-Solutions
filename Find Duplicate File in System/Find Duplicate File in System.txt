@@ -1,0 +1,17 @@
+# Solution Roval T:O(MN) S:O(MN)
+# 19-09-2022
+
+class Solution:
+    def findDuplicate(self, paths: List[str]) -> List[List[str]]:
+        ans = collections.defaultdict(list)
+        for path in paths:
+            temp = path.split(' ')
+            root = temp[0]
+            for file in temp[1:]:
+                filename,content = file.split('(')
+                ans[content].append(root+'/'+filename)
+        output = []
+        for i in ans:
+            if len(ans[i])>1:
+                output.append(ans[i])
+        return output

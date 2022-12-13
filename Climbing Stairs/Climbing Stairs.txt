@@ -1,0 +1,10 @@
+# Solution Roval T:O(N) S:O(1)
+# 12-09-2022
+
+class Solution:
+    def climbStairs(self, n: int) -> int:
+        a = b = 1
+        while n:
+            a,b = b , a+b
+            n-=1
+        return a

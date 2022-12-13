@@ -1,0 +1,12 @@
+# Solution Roval T:O(N^2) S:O(1)
+# 13-12-2022
+
+class Solution:
+    def minFallingPathSum(self, matrix: List[List[int]]) -> int:
+        for i in range(len(matrix)-2,-1,-1):
+            for j in range(0,len(matrix)):
+                matrix[i][j] = matrix[i][j] + min(
+                    float('inf') if j == 0 else matrix[i+1][j-1],
+                    matrix[i+1][j], 
+                    float('inf') if j == len(matrix)-1 else matrix[i+1][j+1])
+        return min(matrix[0])

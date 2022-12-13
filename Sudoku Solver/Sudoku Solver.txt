@@ -1,0 +1,46 @@
+# Solution Roval 
+# 09-09-2022
+
+class Solution:
+    def solveSudoku(self, board: List[List[str]]) -> None:
+        """
+        Do not return anything, modify board in-place instead.
+        """
+        rows = set()
+        cols = set()
+        subbox = set()
+        
+        def backtrack(row,col):
+            if row == 9:
+                return True
+            result = False
+            if board[row][col]!=".":
+                if col==8:
+                    return backtrack(row+1,0)
+                else:
+                    return backtrack(row,col+1)
+            else:
+                for i in range(1,10):
+                    if ((row,str(i)) not in rows) and ((col,str(i)) not in cols) and ((row//3,col//3,str(i)) not in subbox):
+                        rows.add((row,str(i)))
+                        cols.add((col,str(i)))
+                        subbox.add((row//3,col//3,str(i)))
+                        board[row][col] = str(i)
+                        if col==8:
+                            result = result or backtrack(row+1,0)
+                        else:
+                            result = result or backtrack(row,col+1)
+                        if result:
+                            return True
+                        rows.remove((row,str(i)))
+                        cols.remove((col,str(i)))
+                        subbox.remove((row//3,col//3,str(i)))
+                        board[row][col]="."
+            return result
+        for i in range(9):
+            for j in range(9):
+                if board[i][j]!='.':
+                    rows.add((i,board[i][j]))
+                    cols.add((j,board[i][j]))
+                    subbox.add((i//3,j//3,board[i][j]))
+        backtrack(0,0)

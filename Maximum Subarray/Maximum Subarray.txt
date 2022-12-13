@@ -1,0 +1,47 @@
+# Solution Roval T:O(N) S:O(1)
+# 12-09-2022
+
+class Solution:
+    def maxSubArray(self, nums: List[int]) -> int:
+        total = float('-inf')
+        left = 0
+        while left<len(nums):
+            temp = nums[left]
+            left+=1
+            total = max(temp,total)
+            while temp>0 and left<len(nums):
+                temp+=nums[left]
+                total = max(total,temp)
+                left+=1
+            total = max(temp,total)
+        return total
+
+# Solution 1 T:O(N) S:O(1)
+class Solution:
+    def maxSubArray(self, nums: List[int]) -> int:
+        sumValue = nums[0]
+        i = 1
+        tmp = nums[0]
+        while i<len(nums):
+            if tmp<0:
+                tmp = 0
+            tmp+=nums[i]
+            sumValue = max(sumValue,tmp)
+            i+=1
+        return sumValue
+
+# Solution 2 T:O(N) S:O(1)
+class Solution:
+    def maxSubArray(self, nums: List[int]) -> int:
+        sumValue = nums[0]
+        i = 1
+        while i<len(nums):
+            tmp = max(nums[i-1],0)
+            while i<len(nums) and (tmp+nums[i])>=0:
+                tmp+=nums[i]
+                sumValue = max(sumValue,tmp)
+                i+=1
+            if i<len(nums):
+                sumValue = max(sumValue,nums[i])
+            i+=1
+        return sumValue

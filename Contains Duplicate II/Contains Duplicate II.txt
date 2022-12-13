@@ -1,0 +1,11 @@
+# Solution Roval T:O(N) S:O(N)
+# 21-10-2022
+
+class Solution:
+    def containsNearbyDuplicate(self, nums: List[int], k: int) -> bool:
+        counter = {}
+        for index,val in enumerate(nums):
+            if val in counter and abs(counter[val]-index)<=k:
+                return True
+            counter[val] = index
+        return False

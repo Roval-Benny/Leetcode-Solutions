@@ -1,0 +1,17 @@
+# T:O(N) S:O(1)
+# Using heap can give better result
+class Solution:
+    def thirdMax(self, nums: List[int]) -> int:
+        first = nums[0]
+        second = float('-inf')
+        third = float('-inf')
+        for i in range(1,len(nums)):
+            if nums[i]>first:
+                third,second,first = second,first,nums[i]
+            elif nums[i]>second and nums[i]!=first:
+                third,second = second,nums[i]
+            elif nums[i]>third and nums[i]!=second and nums[i]!=first:
+                third = nums[i]
+        if third ==float('-inf'):
+            return first
+        return third

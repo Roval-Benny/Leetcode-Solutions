@@ -1,0 +1,18 @@
+# Solution Roval T:O(N) S:O(N)
+# 29-08-2022
+
+class Solution:
+    def minRemoveToMakeValid(self, s: str) -> str:
+        stack = []
+        for index,val in enumerate(s):
+            if val =='(':
+                stack.append((val,index))
+            elif val==')':
+                if stack and stack[-1][0]=='(':
+                    stack.pop(-1)
+                else:
+                    stack.append((val,index))
+        s = list(s)
+        for i in stack:
+            s[i[1]] = ''
+        return ''.join(s)

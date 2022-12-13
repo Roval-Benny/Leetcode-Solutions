@@ -1,0 +1,66 @@
+# Solution Roval T:O(N) S:O(1)
+# 12-09-2022
+
+class Solution:
+    def maxProduct(self, nums: List[int]) -> int:
+        ans = float('-inf')
+        left = 0
+        second = 0
+        product = 1
+        while left<len(nums):
+            if nums[left]!=0:
+                product*=nums[left]
+                ans = max(ans,product)
+                left+=1
+            else:
+                while second!=left:
+                    ans = max(ans,product)
+                    product = product // nums[second]
+                    second+=1
+                ans = max(ans,0)
+                second+=1
+                left+=1
+                product = 1
+        while second!=left:
+                ans = max(ans,product)
+                product = product // nums[second]
+                second+=1
+        return ans
+
+# Solution Roval T:O(N) S:O(1)
+# 16-08-2022
+
+class Solution:
+    def maxProduct(self, nums: List[int]) -> int:
+        if len(nums)==1:
+            return nums[0]
+        ans = float('-inf')
+        i = 0
+        j = 0
+        product = 1
+        while i<len(nums):
+            if nums[i]==0:
+                while j<i:
+                    if product == nums[j] and nums[j]!=1:
+                        ans = max(ans,0)
+                        product = 1
+                    else:
+                        product//=nums[j]
+                        ans = max(ans,product)
+                    j+=1
+                ans = max(0,ans)
+                i+=1
+                j+=1
+                continue
+            product*=nums[i]
+            ans = max(ans,product)
+            i+=1
+        while j<len(nums):
+            if product == nums[j] and nums[j]!=1:
+                ans = max(ans,0)
+                product = 1
+            else:
+                product//=nums[j]
+                ans = max(ans,product)
+            j+=1
+        return min(ans,(2**32)-1)

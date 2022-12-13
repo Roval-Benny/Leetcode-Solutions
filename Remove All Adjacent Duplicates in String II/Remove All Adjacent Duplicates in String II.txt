@@ -1,0 +1,29 @@
+# Solution 1 - Roval T:O(N) S:O(N)
+class Solution:
+    def removeDuplicates(self, s: str, k: int) -> str:
+        stack = []
+        for i in s:
+            if stack and stack[-1][0]==i:
+                if stack[-1][1]+1 == k:
+                    while stack and stack[-1][0]==i:
+                        stack.pop(-1)
+                else:
+                    stack.append((i,stack[-1][1]+1))
+            else:
+                stack.append((i,1))
+        return "".join(map(lambda x:x[0],stack))
+
+
+# Solution 2 - Roval T:O(N) S:O(N)
+class Solution:
+    def removeDuplicates(self, s: str, k: int) -> str:
+        stack = [['A',0]]
+        for i in s:
+            if stack[-1][0]==i:
+                if stack[-1][1]+1 == k:
+                    stack.pop(-1)
+                else:
+                    stack[-1] = [i,stack[-1][1]+1]
+            else:
+                stack.append([i,1])
+        return "".join(map(lambda x:x[0]*x[1],stack[1:]))

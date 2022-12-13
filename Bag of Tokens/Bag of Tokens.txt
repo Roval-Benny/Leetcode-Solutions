@@ -1,0 +1,24 @@
+# Solution Roval T:O(NlogN) S:O(1)
+# 12-09-2022
+
+class Solution:
+    def bagOfTokensScore(self, tokens: List[int], power: int) -> int:
+        if not tokens:
+            return 0
+        tokens.sort()
+        left = 0
+        right = len(tokens)-1
+        res = score = 0
+        while left<=right:
+            if tokens[left]<=power:
+                score+=1
+                power-=tokens[left]
+                left+=1
+            elif score>0:
+                score-=1
+                power+=tokens[right]
+                right-=1
+            else:
+                break
+            res = max(res,score)
+        return res

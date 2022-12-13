@@ -1,0 +1,11 @@
+#T:O(log(N)) S:O(1)
+
+class Solution:
+    def minBitFlips(self, start: int, goal: int) -> int:
+        count = 0
+        temp = 1
+        while(temp<=start or temp<=goal):
+            if (temp&start)!=(temp&goal):
+                count+=1
+            temp=temp<<1
+        return count

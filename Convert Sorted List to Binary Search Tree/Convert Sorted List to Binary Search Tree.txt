@@ -1,0 +1,97 @@
+# Solution Roval T:O(N) S:O(D) D - depth of tree
+# 24-08-2022
+
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def sortedListToBST(self, head: Optional[ListNode]) -> Optional[TreeNode]:
+        def BSTCreation(start,end):
+            if start==end:
+                return None
+            slow = start
+            fast = start.next
+            while fast and fast.next and fast!=end and fast.next!=end:
+                slow = slow.next
+                fast = fast.next.next
+            return TreeNode(slow.val,BSTCreation(start,slow),BSTCreation(slow.next,end))
+        
+        return BSTCreation(head,None)
+
+# Solution Roval T:O(N) S:O(N)
+# 24-08-2022
+
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def sortedListToBST(self, head: Optional[ListNode]) -> Optional[TreeNode]:
+        nodes = []
+        
+        while head:
+            nodes.append(head.val)
+            head = head.next
+            
+        headBST = TreeNode(-1)
+        
+        def BSTCreation(arr):
+            if not arr:
+                return None
+            mid = len(arr)//2
+            tnode = TreeNode(arr[mid])
+            tnode.left = BSTCreation(arr[:mid])
+            tnode.right = BSTCreation(arr[mid+1:])
+            return tnode
+        headBST.left = BSTCreation(nodes)
+        return headBST.left
+
+
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def iterateToLinkedList(self,head):
+        arr = []
+        temp = head
+        while(temp):
+            arr.append(temp.val)
+            temp = temp.next
+        return arr
+    
+    def createBST(self,arr):
+        if not arr:
+            return
+        mid = len(arr)//2
+        node = TreeNode(arr[mid])
+        node.left = self.createBST(arr[0:mid])
+        node.right = self.createBST(arr[mid+1:])
+        return node
+    
+    
+    def sortedListToBST(self, head: Optional[ListNode]) -> Optional[TreeNode]:
+        arr = self.iterateToLinkedList(head)
+        return self.createBST(arr)

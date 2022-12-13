@@ -1,0 +1,87 @@
+# Solution Roval T:O(2^N) S:O(2^N)
+# 12-08-2022
+
+class Solution:
+    def removeInvalidParentheses(self, s: str) -> List[str]:
+        visited = set()
+        ans = set()
+        def minRemove():
+            stack = []
+            i=0
+            while i<len(s):
+                if s[i]=='(':
+                    stack.append(s[i])
+                elif stack and s[i]==')' and stack[-1]=='(':
+                    stack.pop(-1)
+                elif s[i]==')':
+                    stack.append(')')
+                i+=1
+            return len(stack)
+        minCount = minRemove()
+        def backtrack(string,c1,c2,index):
+            if index==len(s) and len(string)==(len(s)-minCount) and c1==c2:
+                ans.add(string)
+                return
+            if c2>c1:
+                return 
+            if (index,string) in visited:
+                return
+            visited.add((index,string))
+            while index<len(s) and (s[index]!='(' and s[index]!=')'):
+                string+=s[index]
+                index+=1
+            if index<len(s) and s[index]=='(':
+                backtrack(string+'(',c1+1,c2,index+1)
+                backtrack(string,c1,c2,index+1)
+            elif index<len(s) and s[index]==')':
+                backtrack(string+')',c1,c2+1,index+1)
+                backtrack(string,c1,c2,index+1)
+            elif index==len(s):
+                backtrack(string,c1,c2,index)
+            return
+        backtrack('',0,0,0)
+        return and
+
+# Solution Royal T:O(2^N) S:O(2^N)
+# 12-08-2022
+# Faster Solution than mine
+
+class Solution:
+    def removeInvalidParentheses(self, s: str) -> List[str]:
+        def minRemoval(s):
+            left = right = 0
+            for i in s:
+                if i == '(':
+                    left+=1
+                elif left and i== ')':
+                    left-=1
+                elif i == ')':
+                    right+=1
+            return (left,right)
+        
+        
+        def backtrack(leftS,rightS,openR,closeR):
+            if leftS+rightS in visited:
+                return
+            visited.add(leftS+rightS)
+            if openR==0 and closeR == 0:
+                l,r = minRemoval(leftS+rightS)
+                if l+r==0:
+                    output.append(leftS+rightS)
+                return
+            for i in range(len(rightS)):
+                if rightS[i] == '(' and openR:
+                    backtrack(leftS,rightS[i+1:],openR-1,closeR)
+                elif rightS[i] == ")" and closeR:
+                    backtrack(leftS,rightS[i+1:],openR,closeR-1)
+                leftS+=rightS[i]
+            return
+        
+        visited = set()
+        output = []
+        openR,closeR = minRemoval(s)
+        if openR+closeR == 0:
+            return [s]
+        backtrack("",s,openR,closeR)
+        
+        return output

@@ -1,0 +1,19 @@
+# T:O(V+E) V-vertires E-edges S:O(V+E)
+
+class Solution:
+    def __init__(self):
+        self.route = []
+    def allPathsSourceTarget(self, graph: List[List[int]]) -> List[List[int]]:
+        self.DFS(graph,[],len(graph)-1,0)
+        return self.route
+    
+    def DFS(self,graph,array,destination,i):
+        if i==destination:
+            array.append(i)
+            self.route.append(array.copy())
+            return
+        if not graph[i]:
+            return
+        array.append(i)
+        for index in graph[i]:
+            self.DFS(graph,array.copy(),destination,index)

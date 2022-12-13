@@ -1,0 +1,9 @@
+# Solution Roval T:O(N) S:O(1)
+class Solution:
+    def maxProfit(self, prices: List[int]) -> int:
+        profit = 0
+        minV = 999999999
+        for i in prices:
+            minV = min(minV,i)
+            profit = max(profit,i-minV)
+        return profit

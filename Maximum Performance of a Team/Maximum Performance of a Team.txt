@@ -1,0 +1,19 @@
+# Solution Roval T:O(NlogN) S:O(N)
+# 11-09-2022
+
+from heapq import heappush,heappop
+class Solution:
+    def maxPerformance(self, n: int, speed: List[int], efficiency: List[int], k: int) -> int:
+        eng = []
+        for eff,spd in zip(efficiency,speed):
+            eng.append((eff,spd))
+        eng.sort(reverse = True)
+        ans,totalspeed = 0,0
+        heap = []
+        for eff,spd in eng:
+            if len(heap) == k:
+                totalspeed -= heappop(heap)
+            totalspeed+=spd
+            heappush(heap,spd)
+            ans = max(ans,eff*totalspeed)
+        return ans % (10**9 + 7)

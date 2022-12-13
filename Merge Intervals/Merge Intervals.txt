@@ -1,0 +1,15 @@
+# Solution Roval T:O(NlogN) S:O(N)
+# 11-08-2022
+class Solution:
+    def merge(self, intervals: List[List[int]]) -> List[List[int]]:
+        intervals.sort(key=lambda x:x[0])
+        stack = []
+        stack.append(intervals[0])
+        for i in intervals[1:]:
+            if stack[-1][1]>=i[0]:
+                t = stack.pop(-1)
+                new = [min(t[0],i[0]),max(t[1],i[1])]
+                stack.append(new)
+            else:
+                stack.append(i)
+        return stack

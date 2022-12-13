@@ -1,0 +1,90 @@
+# Solution Roval T:O(M+N) S:O(1)
+# 30-08-2022
+
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution:
+    def getIntersectionNode(self, headA: ListNode, headB: ListNode) -> Optional[ListNode]:
+        def lengthFinder(node):
+            length = 0
+            while node:
+                length+=1
+                node = node.next
+            return length
+        def getIntersection(nodeA,nodeB,lenA,lenB):
+            dif = lenA-lenB
+            while dif:
+                nodeA = nodeA.next
+                dif-=1
+            
+            while lenB:
+                if nodeA == nodeB:
+                    return nodeA
+                lenB-=1
+                nodeA = nodeA.next
+                nodeB = nodeB.next
+            return None
+        lengthA = lengthFinder(headA)
+        lengthB = lengthFinder(headB)
+        
+        if lengthA>lengthB:
+            return getIntersection(headA,headB,lengthA,lengthB)
+        return getIntersection(headB,headA,lengthB,lengthA)
+        
+
+# Time O(N+M) Space O(1)
+class Solution:
+    def length(self,head):
+        if not head:
+            return 0
+        count = 1
+        while(head.next):
+            count+=1
+            head = head.next
+        return count,head
+    
+    def getIntersectionNode(self, headA: ListNode, headB: ListNode) -> Optional[ListNode]:
+        l1,tailA = self.length(headA)
+        l2,tailB = self.length(headB)
+        if tailA != tailB:
+            return None
+        maxh = headA if l1>=l2 else headB
+        minh = headA if l1<l2 else headB
+        
+        maxl = max(l1,l2)
+        minl = min(l1,l2)
+        
+        while(maxl!=minl):
+            maxh = maxh.next
+            maxl-=1
+        while(maxh):
+            if maxh==minh:
+                return maxh
+            maxh = maxh.next
+            minh = minh.next
+        return None
+
+
+
+# Time O(N+M) S:O(N)
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution:
+    def getIntersectionNode(self, headA: ListNode, headB: ListNode) -> Optional[ListNode]:
+        setA = set()
+        while(headA):
+            setA.add(headA)
+            headA = headA.next
+        while(headB):
+            if headB in setA:
+                return headB
+            headB = headB.next
+        return None

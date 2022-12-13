@@ -1,0 +1,46 @@
+# Solution 1 Roval T:O(M) S:O(D) M - length of word, D - depth of trie
+from collections import defaultdict
+class Tire:
+    def __init__(self):
+        self.children = defaultdict()
+        self.isPresent = False
+        
+class WordDictionary:
+    def __init__(self):
+        self.node = Tire()
+
+    def addWord(self, word: str) -> None:
+        node = self.node
+        for ch in word:
+            if ch not in node.children:
+                node.children[ch] = Tire()
+            node = node.children[ch]
+        node.isPresent = True
+
+    def search(self, word: str) -> bool:
+        
+        def recursion(node,pos):
+            if node.isPresent and pos==len(word):
+                return True
+            if pos==len(word):
+                return False
+            for i in node.children:
+                if word[pos]!='.' and i!=word[pos]:
+                    continue
+                else:
+                    if recursion(node.children[i],pos+1):
+                        return True
+            return False
+        node = self.node
+        for i in range(len(word)):
+            if word[i]=='.':
+                return recursion(node,i)
+            if word[i] not in node.children:
+                return False
+            node = node.children[word[i]]
+        return node.isPresent
+
+# Your WordDictionary object will be instantiated and called as such:
+# obj = WordDictionary()
+# obj.addWord(word)
+# param_2 = obj.search(word)

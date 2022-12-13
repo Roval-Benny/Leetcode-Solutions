@@ -1,0 +1,20 @@
+# Solution Roval T:O(N) S:O(1)
+# 11-08-2022
+class Solution:
+    def sortColors(self, nums: List[int]) -> None:
+        """
+        Do not return anything, modify nums in-place instead.
+        """
+        s,fs,fe = 0,0,len(nums)-1
+        while s<=fe:
+            if nums[s]==0:
+                nums[fs],nums[s] = nums[s],nums[fs]
+            elif nums[s]==2:
+                nums[fe],nums[s] = nums[s],nums[fe]
+            else:
+                s+=1
+            if nums[fs]==0:
+                fs+=1
+                s=max(fs,s)
+            if nums[fe]==2:
+                fe-=1

@@ -1,0 +1,27 @@
+# Solution 2 - Roval T:O(N^2) S:O(N)
+class Solution:
+    def lengthOfLIS(self, nums: List[int]) -> int:
+        dp =  [1]*len(nums)
+        for i in range(len(nums)-1,-1,-1):
+            for j in range(i+1,len(nums)):
+                if nums[i]<nums[j]:
+                    dp[i] = max(dp[i],1+dp[j])
+                
+        return max(dp)
+
+# Solution 1 - Roval Backtracking 
+class Solution:
+    def lengthOfLIS(self, nums: List[int]) -> int:
+        dp = {}
+        def increasing(index,parent):
+            if index==len(nums):
+                return 0
+            if (index,nums[index]) in dp:
+                return dp[(index,nums[index])]
+            size = 0
+            for i in range(index,len(nums)):
+                if parent<nums[i]:
+                    size = max(size,increasing(i,nums[i]))
+            dp[(index,nums[index])] = size+1
+            return dp[(index,nums[index])]
+        return increasing(0,-9999999)-1

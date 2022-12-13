@@ -1,0 +1,50 @@
+#0xAAAAAAAA = 1010101010101010101010 in binary
+#0x55555555 = 0101010101010101010101 in binary
+# this will help to find the odd and even position values of n
+# T:O(1) S:O(1)
+
+
+class Solution:
+    
+    ##Complete this function
+    #Function to swap odd and even bits.
+    def swapBits(self,n):
+        #Your code here
+        even = (n & 0xAAAAAAAA)
+        odd = (n & 0x55555555)
+        return (odd << 1) | (even >> 1)
+
+
+
+
+
+
+
+
+
+
+
+
+#{ 
+#  Driver Code Starts
+#Initial Template for Python 3
+
+import math
+
+
+
+def main():
+    
+    T=int(input())
+    
+    while(T>0):
+        
+        
+        n=int(input())
+        ob=Solution()
+        print(ob.swapBits(n))
+        T-=1
+
+if __name__=="__main__":
+    main()
+# } Driver Code Ends

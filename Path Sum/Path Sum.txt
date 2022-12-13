@@ -1,0 +1,42 @@
+# SOlution Roval T:O(N) S:O(D) D - depth
+# 04-10-2022
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def hasPathSum(self, root: Optional[TreeNode], targetSum: int) -> bool:
+        def dfs(node,total):
+            if not node:
+                return False
+            if not node.left and not node.right:
+                return node.val+total==targetSum
+            ans = False
+            if node.left:
+                ans = ans or dfs(node.left,total+node.val)
+            if node.right:
+                ans = ans or dfs(node.right,total+node.val)
+            return ans
+        return dfs(root,0)
+
+
+# T:O(N) S:O(D) D - depth of tree
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def pathSum(self,node,sum,target):
+        if not node:
+            return False
+        if not node.left and not node.right and node.val+sum == target:
+            return True
+        return self.pathSum(node.left,sum+node.val,target) or self.pathSum(node.right,sum+node.val,target)
+    
+    def hasPathSum(self, root: Optional[TreeNode], targetSum: int) -> bool:
+        return self.pathSum(root,0,targetSum)

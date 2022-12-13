@@ -1,0 +1,8 @@
+# T:O(1) S:O(1)
+def numberMax(a,b):
+    c = a - b
+    c = c>>31 & 1
+    return a*(not c) + b*(c)
+a = 73
+b = 100
+print(numberMax(a,b))

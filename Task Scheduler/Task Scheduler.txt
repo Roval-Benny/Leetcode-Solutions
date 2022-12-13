@@ -1,0 +1,23 @@
+# Solution Roval T:O(T) S:O(N) t - time required
+# 10-08-2022
+from heapq import heappush, heappop,heapify
+from collections import Counter
+from queue import deque
+class Solution:
+    def leastInterval(self, tasks: List[str], n: int) -> int:
+        counter = Counter(tasks)
+        heap = []
+        heapify(heap)
+        for i in counter:
+            heappush(heap,-1*counter[i])
+        q = deque()
+        t = 1
+        while heap or q:
+            if heap:
+                temp = heappop(heap)+1
+                if temp<0:
+                    q.append((temp,t+n))
+            if q and q[0][1]==t:
+                heappush(heap,q.popleft()[0])
+            t+=1
+        return t-1

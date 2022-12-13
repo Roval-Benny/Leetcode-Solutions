@@ -1,0 +1,62 @@
+# Solution Roval T:O(N) S:O(1)
+# 27-10-2022
+
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def pairSum(self, head: Optional[ListNode]) -> int:
+        n = 1
+        node = head
+        while node:
+            n+=1
+            node = node.next
+        i = 1
+        first = node = head
+        while i+1<=n/2:
+            node = node.next
+            i+=1
+        reverseNode = None
+        def reverse(front,prev):
+            nonlocal reverseNode
+            if front.next:
+                reverse(front.next,front)
+            if not reverseNode:
+                reverseNode = front
+            front.next = prev
+            return 
+        reverse(node.next,None)
+        node.next = None
+        twin = 0 
+        while first:
+            twin = max(twin,first.val + reverseNode.val)
+            first = first.next
+            reverseNode = reverseNode.next
+        return twin
+
+
+
+# Solution Roval T:O(N) S:O(N)
+# 27-10-2022
+
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def pairSum(self, head: Optional[ListNode]) -> int:
+        nodes = []
+        while head:
+            nodes.append(head.val)
+            head = head.next
+        N = len(nodes)
+        i = 0
+        twin = 0
+        end = (N/2)-1
+        while 0<=i<=end:
+            twin = max(twin, nodes[i]+nodes[N-1-i])
+            i+=1
+        return twin

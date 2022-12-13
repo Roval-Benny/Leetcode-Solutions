@@ -1,0 +1,57 @@
+# Solution Roval T:O(log(Min(x,y))) S:O(1)
+# 02-09-2022
+
+class Solution:
+    def findMedianSortedArrays(self, nums1: List[int], nums2: List[int]) -> float:
+        if len(nums1)>len(nums2):
+            return self.findMedianSortedArrays(nums2,nums1)
+        x = len(nums1)
+        y = len(nums2)
+        low = 0
+        high = x
+        while low<=high:
+            mid = (low+high)//2
+            paritionY = (x+y+1)//2 - mid
+            
+            minX = nums1[mid-1] if (mid)>0 else float('-inf')
+            maxX = nums1[mid] if (mid)<len(nums1) else float('inf')
+            
+            minY = nums2[paritionY-1] if paritionY>0 else float('-inf')
+            maxY = nums2[paritionY] if (paritionY)<len(nums2) else float('inf')
+            
+            if minX<=maxY and maxX>=minY:
+                return max(minY,minX) if (x+y)%2==1 else (max(minY,minX)+min(maxX,maxY))/2
+            elif minX>maxY:
+                high = mid-1
+            else:
+                low = mid+1
+        return -1
+
+# Solution Roval T:O(log(M+N)) S:O(1)
+# 20-08-2022
+
+class Solution:
+    def findMedianSortedArrays(self, nums1: List[int], nums2: List[int]) -> float:
+        if len(nums1)>len(nums2):
+            return self.findMedianSortedArrays(nums2,nums1)
+        start = 0
+        end = len(nums1)
+        while start<=end:
+            partitionX = (start+end)//2
+            partitionY = (len(nums1)+len(nums2)+1)//2 - partitionX
+            
+            minX = float('-inf') if partitionX == 0 else nums1[partitionX-1]
+            maxX = float('inf') if partitionX == len(nums1) else nums1[partitionX]
+            
+            minY = float('-inf') if partitionY == 0 else nums2[partitionY-1]
+            maxY = float('inf') if partitionY == len(nums2) else nums2[partitionY]
+            
+            if minX<=maxY and minY<=maxX:
+                if (len(nums1)+len(nums2))%2:
+                    return max(minX,minY)
+                return (max(minX,minY)+min(maxY,maxX))/2
+            elif minY<maxX:
+                end = partitionX-1
+            else:
+                start = partitionX+1
+        return 0

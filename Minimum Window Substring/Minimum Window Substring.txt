@@ -1,0 +1,91 @@
+# Solution Roval T:O(N+M) S:O(M)
+# 13-10-2022
+
+class Solution:
+    def minWindow(self, s: str, t: str) -> str:
+        if len(t)>len(s):
+            return ""
+        counterT = Counter(t)
+        counterS = defaultdict(int)
+        s+="*"
+        ans,ansLen,length,j,start,end = "",float('inf'),len(counterT),0,0,-1
+        for idx,val in enumerate(s):
+            if val in counterT:
+                counterS[val]+=1
+                if counterS[val]==counterT[val]:
+                    length-=1
+            if length==0:
+                while j<=idx and length==0:
+                    if s[j] in counterT:
+                        if counterS[s[j]]==counterT[s[j]]:
+                            length+=1
+                        counterS[s[j]]-=1
+                    if idx-j < ansLen:
+                        ansLen = idx-j
+                        start,end = j,idx
+                    j+=1
+        return s[start:end+1]
+
+
+# Solution Roval T:O(N+M) S:O(M) having 26 iteration every time
+# 13-10-2022
+
+class Solution:
+    def minWindow(self, s: str, t: str) -> str:
+        if len(t)>len(s):
+            return ""
+        counterT = Counter(t)
+        counterS = defaultdict(int)
+        def isValid():
+            for key in counterT:
+                if counterS[key]<counterT[key]:
+                    return False
+            return True
+        s+="*"
+        ans,ansLen,length,j = "",float('inf'),len(t),0
+        for idx,val in enumerate(s):
+            if val in counterT:
+                length-=1
+                counterS[val]+=1
+            if length<1:
+                while j<=idx and isValid():
+                    if s[j] in counterT:
+                        length+=1
+                        counterS[s[j]]-=1
+                    if idx-j < ansLen:
+                        ansLen = idx-j
+                        ans = s[j:idx+1]
+                    j+=1
+        return and
+
+
+# Soltuion Roval T:O(N+M) S:O(M)
+# 30-08-2022
+
+from collections import defaultdict
+class Solution:
+    def minWindow(self, s: str, t: str) -> str:
+        target = defaultdict(int)
+        actual = defaultdict(int)
+        for i in t:
+            target[i] = target[i]+1
+            actual[i] = 0
+        targetValue = 0
+        actualValue = len(target)
+        left,right,length = 0,0,float('inf')
+        tail = 0
+        for i in range(len(s)):
+            if s[i] in target:
+                actual[s[i]]+=1
+                if actual[s[i]] == target[s[i]]:
+                    targetValue+=1
+            while targetValue == actualValue:
+                if (i-tail)<length:
+                    left,right = tail,i
+                    length = (i-tail)
+                if s[tail] in actual:
+                    if actual[s[tail]] == target[s[tail]]:
+                        targetValue-=1
+                    actual[s[tail]]-=1
+                tail+=1
+        return s[left:right+1] if length!=float('inf') else ""

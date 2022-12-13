@@ -1,0 +1,34 @@
+# Solution 1 T:O(N) S:O(1)
+class Solution:
+    def isPalindrome(self, s: str) -> bool:
+        alphanumeric = set(['0','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'])
+        
+        n = 0
+        m = len(s)-1
+        while n<=m:
+            if s[n] not in alphanumeric:
+                n+=1
+            elif s[m] not in alphanumeric:
+                m-=1
+            elif s[n].lower()==s[m].lower():
+                n+=1
+                m-=1
+            else:
+                return False
+        return True
+
+#Solution 2 using isalnum T:O(N) S:O(1)
+class Solution:
+    def isPalindrome(self, s: str) -> bool:
+        l , r = 0, len(s)-1
+        while l<=r:
+            if s[l]==s[r] or (s[l].isalpha() and s[r].isalpha and s[l].lower()==s[r].lower()):
+                l+=1
+                r-=1
+            elif not s[l].isalnum():
+                l+=1
+            elif not s[r].isalnum():
+                r-=1
+            else:
+                return False
+        return True

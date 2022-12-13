@@ -1,0 +1,14 @@
+# T:O(NlogN) S:O(1)
+class Solution:
+    def compare(self,first,second):
+        if first+second > second+first:
+            return -1
+        else:
+            return 1
+    def largestNumber(self, nums: List[int]) -> str:
+        for i in range(len(nums)):
+            nums[i] = str(nums[i])
+        nums = sorted(nums,key=cmp_to_key(self.compare))
+        if nums[0]=='0':
+            return '0'
+        return ''.join(nums)

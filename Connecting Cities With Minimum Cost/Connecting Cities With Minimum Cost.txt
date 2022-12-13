@@ -1,0 +1,32 @@
+# Solution Roval T:O(ElogE) S:O(E)
+# 23-08-2022
+
+from collections import defaultdict
+from heapq import heapify, heappop, heappush
+def getMinimumCost(n, m, connections):
+    # Write your code here.
+    if m == 0:
+        return 0 if n<=1 else -1
+    graph = defaultdict(list)
+    for u,v,w in connections:
+        graph[u].append((v,w))
+        graph[v].append((u,w))
+    visited = set()
+    cost = 0
+    heap = []
+    heapify(heap)
+    if 1 in graph:
+        heappush(heap,(0,1))
+    else:
+        return -1
+    while heap:
+        weight, edge = heappop(heap)
+        if edge not in visited:
+            visited.add(edge)
+            cost+=weight
+            for v,w in graph[edge]:
+                if v not in visited:
+                    heappush(heap,(w,v))
+    if len(visited)==n:
+        return cost
+    return -1

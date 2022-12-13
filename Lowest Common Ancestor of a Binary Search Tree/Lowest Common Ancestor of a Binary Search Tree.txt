@@ -1,0 +1,54 @@
+# Solution 1 T:O(logN) S:O(1)
+
+class Solution:
+    def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
+        node = root
+        while node:
+            if node.val > p.val and node.val > q.val:
+                node = node.left
+            elif node.val < p.val and node.val <q.val:
+                node = node.right
+            else:
+                return node
+        return node
+
+# Solution 2 T:O(logN) S:O(D) D - depth of the tree
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    
+    def __init__(self):
+        self.common = None
+    def checker(self,node,p,q):
+        if not node:
+            return False
+        if node.val==p.val or node.val==q.val:
+            self.common = node
+            return True
+        leftp = False
+        leftq = False
+        rightp = False
+        rightq = False
+        if node.val>p.val:
+            leftp = self.checker(node.left,p,q)
+        else:
+            rightp = self.checker(node.right,p,q)
+        if node.val>q.val:
+            leftq = self.checker(node.left,p,q)
+        else:
+            rightq = self.checker(node.right,p,q)
+            
+        if (leftp and rightq) or (rightp and leftq):
+            self.common = node
+        return leftp or rightp or leftq or rightq
+    
+    
+    def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
+        self.checker(root,p,q)
+        return self.common

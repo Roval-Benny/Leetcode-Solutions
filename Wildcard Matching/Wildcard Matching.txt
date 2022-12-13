@@ -1,0 +1,26 @@
+# Solution Roval T:O(N^2) S:O(N^M)
+# 31-08-2022
+
+class Solution:
+    def isMatch(self, s: str, p: str) -> bool:
+        memo = {}
+        
+        def backtrack(spos,ppos):
+            if (spos,ppos) in memo:
+                return memo[(spos,ppos)]
+            if spos==len(s) and ppos == len(p):
+                return True
+            if ppos == len(p):
+                return False
+            if spos==len(s):
+                return backtrack(spos,ppos+1) if p[ppos] =='*' else False
+            memo[(spos,ppos)] = False
+            if s[spos]==p[ppos] or p[ppos]=='?':
+                memo[(spos,ppos)] =  backtrack(spos+1,ppos+1) 
+                return memo[(spos,ppos)]
+            if p[ppos] == '*':
+                memo[(spos,ppos)] = backtrack(spos,ppos+1) or backtrack(spos+1,ppos+1) or backtrack(spos+1,ppos)
+                return memo[(spos,ppos)]
+            return memo[(spos,ppos)]
+        
+        return backtrack(0,0)

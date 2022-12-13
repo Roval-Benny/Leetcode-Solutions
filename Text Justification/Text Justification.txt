@@ -1,0 +1,36 @@
+# Solution Roval T:O(N) S:O(N)
+# 10-11-2022
+
+class Solution:
+    def fullJustify(self, words: List[str], maxWidth: int) -> List[str]:
+        
+        def builder(string,length,end):
+            result = ''
+            if len(string) == 1:
+                if len(string) == 1:
+                    return string[0]+' '*(maxWidth-length)
+            if end:
+                return ' '.join(string)+' '*(maxWidth-length-len(string)+1)
+            gap = (maxWidth-length)//(len(string)-1)
+            nonEven =  (maxWidth-length)%(len(string)-1)
+            for s in string[:-1]:
+                result+=(s+' '*gap+(' ' if nonEven>0 else ''))
+                nonEven-=1
+            result+=string[-1]
+            return result
+        
+        ans = []
+        length = 0
+        tlength = 0
+        strings = []
+        words.append("0"*(maxWidth))
+        for index,s in enumerate(words):
+            if tlength+len(s)>maxWidth:
+                ans.append(builder(strings,length,index>=(len(words)-1)))
+                strings = []
+                length = 0
+                tlength = 0
+            strings.append(s)
+            length+=len(s)
+            tlength+=(len(s)+1)
+        return ans

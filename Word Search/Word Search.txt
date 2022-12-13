@@ -1,0 +1,27 @@
+# Solution 1 Roval T:O(N*M*NM^4) S:O(1)
+class Solution:
+    def exist(self, board: List[List[str]], word: str) -> bool:
+        
+        def recursion(i,j,pos):
+            if pos==len(word):
+                return True
+            if i==-1 or i==len(board) or j == -1 or j==len(board[0]):
+                return False
+            a = False
+            if board[i][j] == word[pos]:
+                temp = board[i][j]
+                board[i][j] = '*'
+                a = recursion(i+1,j,pos+1)
+                a = a or recursion(i-1,j,pos+1)
+                a = a or recursion(i,j+1,pos+1)
+                a = a or recursion(i,j-1,pos+1)
+                board[i][j] = temp
+            return a
+            
+        
+        for i in range(len(board)):
+            for j in range(len(board[0])):
+                if board[i][j] == word[0]:
+                    if recursion(i,j,0):
+                        return True
+        return False

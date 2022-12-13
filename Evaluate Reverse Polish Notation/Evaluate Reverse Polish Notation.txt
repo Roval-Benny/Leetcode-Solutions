@@ -1,0 +1,33 @@
+# Solution Roval T:O(N) S:O(N)
+# 11-11-2022
+
+class Solution:
+    def evalRPN(self, tokens: List[str]) -> int:
+        stack = []
+        for t in tokens:
+            if t == '*':
+                first = stack.pop(-1)
+                second = stack.pop(-1)
+                result = second * first
+                stack.append(result)
+            elif t == '+':
+                first = stack.pop(-1)
+                second = stack.pop(-1)
+                result = second + first
+                stack.append(result)
+            elif t == '/':
+                first = stack.pop(-1)
+                second = stack.pop(-1)
+                result = second / first
+                if result<0:
+                    stack.append(math.ceil(result))
+                else:
+                    stack.append(math.floor(result))
+            elif t == '-':
+                first = stack.pop(-1)
+                second = stack.pop(-1)
+                result = second - first
+                stack.append(result)
+            else:
+                stack.append(int(t))
+        return sum(stack)

@@ -1,0 +1,34 @@
+# Solution Roval T:O(min(len(string))*N) S:O(1)
+# 06-09-2022
+
+class Solution:
+    def longestCommonPrefix(self, strs: List[str]) -> str:
+        pos = -1
+        minlength = float('inf')
+        for i in strs:
+            minlength = min(minlength,len(i))
+        for i in range(minlength):
+            for j in range(1,len(strs)):
+                if pos == len(strs[j]) or pos == len(strs[j]) or strs[j-1][pos+1]!=strs[j][pos+1]:
+                    return strs[0][:pos+1]
+            pos+=1
+        return strs[0][:pos+1]
+
+#T: O(NM) S:O(1)
+class Solution:
+    def longestCommonPrefix(self, strs: List[str]) -> str:
+        if len(strs)==1:
+            return strs[0]
+        end = float('inf')
+        for i in range(len(strs)-1):
+            s1,s2 = strs[i],strs[i+1]
+            if not s1 or not s2 or end == -1:
+                return ""
+            common = -1
+            for j in range(min(len(s1),len(s2),end+1)):
+                if s1[j]==s2[j]:
+                    common = j
+                else:
+                    break
+            end = common
+        return strs[0][:end+1]

@@ -1,0 +1,13 @@
+# Solution Roval T:O(N) S:O(1)
+# 13-09-2022
+
+class Solution:
+    def jump(self, nums: List[int]) -> int:
+        count = 0
+        maxp = pos = 0
+        for i in range(len(nums)-1):
+            maxp = max(maxp,i+nums[i])
+            if i == pos:
+                count+= 1
+                pos = maxp
+        return count

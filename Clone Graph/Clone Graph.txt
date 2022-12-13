@@ -1,0 +1,62 @@
+# Solution Roval T:O(V+E) S:O(E) using bfs
+# 18-08-2022
+
+"""
+# Definition for a Node.
+class Node:
+    def __init__(self, val = 0, neighbors = None):
+        self.val = val
+        self.neighbors = neighbors if neighbors is not None else []
+"""
+from collections import deque
+class Solution:
+    def cloneGraph(self, node: 'Node') -> 'Node':
+        if not node:
+            return None
+        nodes = {}
+        q = deque()
+        new = Node(node.val)
+        head = new
+        nodes[node.val] = new
+        q.append(node)
+        while q:
+            temp = q.popleft()
+            for snode in temp.neighbors:
+                if snode.val not in nodes:
+                    new = Node(snode.val)
+                    nodes[snode.val] = new
+                    q.append(snode)
+                    nodes[temp.val].neighbors.append(new)
+                else:
+                    nodes[temp.val].neighbors.append(nodes[snode.val])
+        return head
+        
+
+# Solution Royal T:O(V+E) S:O(E) using dfs
+# 18-08-2022
+
+"""
+# Definition for a Node.
+class Node:
+    def __init__(self, val = 0, neighbors = None):
+        self.val = val
+        self.neighbors = neighbors if neighbors is not None else []
+"""
+
+class Solution:
+    def cloneGraph(self, node: 'Node') -> 'Node':
+        if not node:
+            return 
+        
+        nodes = dict()
+        
+        def bfs(node):
+            if node in nodes:
+                return nodes[node]
+            newNode = Node(node.val)
+            nodes[node] = newNode
+            for child in node.neighbors:
+                newNode.neighbors.append(bfs(child))
+            return newNode
+        bfs(node)
+        return nodes[node]

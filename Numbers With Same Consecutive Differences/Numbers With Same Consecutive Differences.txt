@@ -1,0 +1,21 @@
+# Solution Roval T:O(2^N) S:O(2^N)
+# 03-09-2022
+
+class Solution:
+    def numsSameConsecDiff(self, n: int, k: int) -> List[int]:
+        ans = list()
+        def backtrack(number,last,size):
+            if size==n:
+                ans.append(number)
+                return
+            if k ==0:
+                backtrack((number*10)+last,last,size+1)
+                return
+            if (last+k)<10:
+                backtrack((number*10)+last+k,last+k,size+1)
+            if (last-k)>=0:
+                backtrack((number*10)+(last-k),last-k,size+1)
+            return 
+        for i in range(1,10):
+            backtrack(i,i,1)
+        return ans

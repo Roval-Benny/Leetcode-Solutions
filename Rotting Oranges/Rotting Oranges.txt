@@ -1,0 +1,88 @@
+# Solution Roval T:O(NM) S:O(NM)
+# 20-09-2022
+
+class Solution:
+    def orangesRotting(self, grid: List[List[int]]) -> int:
+        fresh = 0
+        stack = []
+        count = -1
+        for i in range(len(grid)):
+            for j in range(len(grid[0])):
+                if grid[i][j] == 2:
+                    stack.append([i,j])
+                    continue
+                if grid[i][j]==1:
+                    fresh+=1
+        if fresh==0:
+            return 0
+        visited = set()
+        while stack:
+            temp = []
+            count+=1
+            while stack:
+                i,j = stack.pop(-1)
+                grid[i][j] = 2
+                if i-1>-1 and grid[i-1][j]==1 and (i-1,j) not in visited:
+                    visited.add((i-1,j))
+                    fresh-=1
+                    temp.append((i-1,j))
+                if i+1<len(grid) and grid[i+1][j] == 1 and (i+1,j) not in visited:
+                    visited.add((i+1,j))
+                    fresh-=1
+                    temp.append((i+1,j))
+                if j-1>-1 and grid[i][j-1] == 1 and (i,j-1) not in visited:
+                    visited.add((i,j-1))
+                    fresh-=1
+                    temp.append((i,j-1))
+                if j+1<len(grid[0]) and grid[i][j+1] == 1 and (i,j+1) not in visited:
+                    visited.add((i,j+1))
+                    fresh-=1
+                    temp.append((i,j+1))
+            stack = temp
+        return count if fresh==0 else -1
+
+
+# Solution Roval T:O(N*M) S:O(N*M)
+# 23-08-2022
+
+class Solution:
+    def orangesRotting(self, grid: List[List[int]]) -> int:
+        
+        def rottonFinder():
+            rotton = []
+            count = 0
+            for i in range(len(grid)):
+                for j in range(len(grid[0])):
+                    if grid[i][j]==2:
+                        rotton.append((i,j))
+                    elif grid[i][j]==1:
+                        count+=1
+            return (rotton,count)
+        rotton,count = rottonFinder()
+        
+        time = -1
+        while rotton:
+            temp = []
+            while rotton:
+                (x,y) = rotton.pop(-1)
+                if (x-1)>-1 and grid[x-1][y]==1:
+                    grid[x-1][y] = 2
+                    temp.append((x-1,y))
+                    count-=1
+                if (x+1)<len(grid) and grid[x+1][y]==1:
+                    grid[x+1][y] = 2
+                    temp.append((x+1,y))
+                    count-=1
+                if (y-1)>-1 and grid[x][y-1]==1:
+                    grid[x][y-1] = 2
+                    temp.append((x,y-1))
+                    count-=1
+                if (y+1)<len(grid[0]) and grid[x][y+1]==1:
+                    grid[x][y+1] = 2
+                    temp.append((x,y+1))
+                    count-=1
+            rotton = temp
+            time+=1
+        if not count:
+            return time if time !=-1 else 0
+        return -1

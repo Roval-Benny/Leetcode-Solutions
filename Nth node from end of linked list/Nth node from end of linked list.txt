@@ -1,0 +1,15 @@
+# T:O(N) S:O(1)
+def getNthFromLast(head,n):
+    #code here
+    
+    temp = head
+    current = head
+    while(current):
+        if n>0:
+            n-=1
+        else:
+            temp = temp.next
+        current = current.next
+    if n>0:
+        return -1
+    return temp.data
